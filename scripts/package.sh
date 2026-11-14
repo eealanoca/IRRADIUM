@@ -17,7 +17,7 @@ cleanup() {
   [[ -z "$STAGING" ]] || rm -rf -- "$STAGING"
 }
 trap cleanup EXIT
-tar -C "$ROOT" --exclude='node_modules' --exclude='dist' --exclude='.next' --exclude='.wrangler' \
+tar -C "$ROOT" --exclude='node_modules' --exclude='dist' --exclude='.next' --exclude='.vinext' --exclude='.wrangler' \
   --exclude='docs/PHITS_PERFORMANCE_2026-11-13.md' --exclude='docs/presupuesto_predeterminado_2_por_ciento.md' \
   --exclude='docs/quickstart/*.tex' --exclude='app/docs' --exclude='app/examples/irradiation_loads' --exclude='app/icons/icon.png' \
   --exclude='__pycache__' --exclude='*.pyc' --exclude='*.egg-info' \
