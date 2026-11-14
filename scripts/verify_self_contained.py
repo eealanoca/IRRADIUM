@@ -21,8 +21,10 @@ assert Path(openmc.__file__).is_relative_to(root / "runtime/main")
 assert Path(vtk.__file__).is_relative_to(root / "runtime/main")
 assert CAD_PYTHON == root / "runtime/cad/bin/python"
 assert shutil.which("conda") is None
-assert not Path("/home/efr_al/anaconda3/bin/conda").exists()
-assert not os.access("/home/efr_al/anaconda3", os.W_OK)
+for name in ("anaconda3", "miniconda3"):
+    external_prefix = Path.home() / name
+    assert not (external_prefix / "bin/conda").exists()
+    assert not os.access(external_prefix, os.W_OK)
 assert [item["id"] for item in catalog() if item["enabled"]] == ["IV"]
 assert settings.output_root == root / "workspace/irradiators/IV"
 assert settings.movement_output.is_relative_to(root / "workspace/irradiators/IV")
@@ -32,7 +34,9 @@ assert (root / "Desinstalar_IRRADIUM.sh").is_file()
 assert (root / "Desinstalar_IRRADIUM.desktop").is_file()
 from apps.api.sim_gamma_api.main import _preferences_path
 assert _preferences_path() == root / "workspace/Configuracion/preferencias.json"
-assert "/home/efr_al/anaconda3/" not in Path("/proc/self/maps").read_text()
+loaded_libraries = Path("/proc/self/maps").read_text()
+for name in ("anaconda3", "miniconda3"):
+    assert f"{Path.home() / name}/" not in loaded_libraries
 try:
     descriptor = os.open("/usr/bin/env", os.O_WRONLY)
 except OSError as error:
