@@ -1,0 +1,410 @@
+{
+  "en": [
+    {
+      "path": "INSTALLATION",
+      "title": "Install and open IRRADIUM",
+      "body": [
+        "Download the Linux x86-64 archive from <a href=\"https://github.com/eealanoca/IRRADIUM/releases\">GitHub Releases</a>. Use a writable directory, a browser, Bash, curl, tar and an Internet connection. Allow 20 GB of free space plus study storage.",
+        "$sha256sum -c IRRADIUM-0.3.0-alpha.1-linux.tar.gz.sha256<br/>tar -xzf IRRADIUM-0.3.0-alpha.1-linux.tar.gz<br/>cd IRRADIUM<br/>./install.sh",
+        "The installer stores Python, Node, OpenMC and CAD tools locally. It downloads the official ENDF/B-VII.1 data, verifies the retained HDF5 files and builds a local index. Run the installer again to retry a failed download. Install PHITS separately if needed.",
+        "!Open <b>IRRADIUM</b> from the applications menu or run <b>./Iniciar_IRRADIUM.sh</b>. Use <a href=\"http://127.0.0.1:3001/\">127.0.0.1:3001</a> and enter Category IV. The installed runtime uses a fixed path."
+      ],
+      "pics": [
+        "showcase/welcome-en.png"
+      ],
+      "caption": "Categories I, II and III are conceptual previews."
+    },
+    {
+      "path": "WELCOME  /  GETTING STARTED",
+      "title": "Start with the teaching case",
+      "body": [
+        "Use the language menu and the sun or moon controls. Collapse the sidebar for more viewing space. On the welcome screen, drag the conceptual model to rotate it and use its reset or animation control.",
+        "Open <b>Getting started</b>, step through the prompts and choose <b>Medical-fluid kit</b>. The water block is a simpler reference. The guide can be skipped and reopened from the header. Each teaching case gets its own STEP, sources, route and materials.",
+        "!The published SVST-Co-60/B study describes 68 positions on two levels with four passes per level. The supplied sequence, centers, turns, equivalent sources and activity date are teaching assumptions. The model covers the load without the facility shielding and transport machinery."
+      ],
+      "pics": [
+        "02-guia.png",
+        "showcase/cad-en.png"
+      ],
+      "caption": "The walkthrough and the original 54-body teaching load."
+    },
+    {
+      "path": "CAD LOAD  /  PREPARE LOAD",
+      "title": "Inspect geometry and assign materials",
+      "body": [
+        "Import <b>medical_kit.step</b> from <b>app/examples/commercial_svst/</b> or open the teaching case in <b>Saved loads</b>. The assembly has water contents, polypropylene vessels and trays, polycarbonate fittings, silicone loops and steel clips. The overall dimensions are 480 × 480 × 900 mm.",
+        "For your own STEP, use closed solids and name the bodies with the exact material prefix. Rotate, pan and zoom to check the assembly. For a generated load, choose EPS, water containers or mandarins in trays, enter X/Y/Z and generate the STEP.",
+        "Select a detected tag, enter density in g/cm³ and elemental composition, then choose atomic or mass fractions. For water, use 1 g/cm³ with an atomic composition of <b>{\"H\": 2, \"O\": 1}</b>. The example supplies the remaining definitions in <b>config/materials.json</b>.",
+        "!The case button becomes available after every detected material has a definition. Verify the CAD dimensions and tags before saving."
+      ],
+      "pics": [
+        "showcase/material-editor-en.png"
+      ],
+      "caption": "Material assignment after manual import of the complex STEP."
+    },
+    {
+      "path": "SOURCES  /  IRRADIATOR CONFIGURATION",
+      "title": "Set sources and irradiation date",
+      "body": [
+        "Select a capsule in the rack to review its active length, 11 mm diameter, endpoints, reference activity and date. Filter the inventory by identifier. Use <b>Add source</b> or <b>Edit source</b> to define the endpoints in mm. The editor rejects coincident endpoints and nonpositive activity.",
+        "The reference date describes the source measurement. The irradiation date in the study determines the decay correction. At elapsed time Δt, multiply reference activity by 2<super>−Δt/T½</super>, using the same time units.",
+        "!The twelve equivalent Co-60 cylinders belong to the teaching example. Saving a case copies its source inventory for later reproduction."
+      ],
+      "pics": [
+        "showcase/sources-en.png"
+      ],
+      "caption": "Rack and detail of the equivalent source selected in the teaching configuration."
+    },
+    {
+      "path": "POSITIONS  /  EDIT ROUTE",
+      "title": "Configure the turns around Z",
+      "body": [
+        "Open <b>Positions → Edit route</b>. Pick the STEP reference point, either bounding-box center or bottom center. Enter X, Y and Z in mm and an <b>absolute Z rotation</b> in degrees for each stop. Choose the global CAD offset only when the imported CAD axes require it.",
+        "!In the teaching route, S8 has 180° and S9 has 0°. The change between stops is 180°. Enter the angle for each stop, including 0°, rather than entering a new 180° on every row after a turn. The effective angle adds the global CAD offset.",
+        "Use the arrows to reorder stops, add or remove a row, and save. Highlight a position in the 3D view. Review the distances and orientation changes below. New cases take the saved route. To change an existing case configuration, prepare a new case."
+      ],
+      "pics": [
+        "showcase/rotations-en.png",
+        "showcase/positions-en.png"
+      ],
+      "caption": "Editable angles and the route overview. Distances are straight lines between the saved reference points."
+    },
+    {
+      "path": "IRRADIATION CASES  /  SIMULATION PARAMETERS",
+      "title": "Save a reproducible case",
+      "body": [
+        "In <b>Simulation parameters</b>, set defaults and optionally save a named profile. Choose the full route or add stops from the position menu. The selection retains the saved angles and follows route order. In <b>Irradiation cases</b>, enter a name and description, choose method and occupancy, and create the case.",
+        "Choose <b>Single load</b> for the isolated configuration or <b>Full occupancy</b> to include attenuation and scatter from neighboring loads. Compare occupancy variants with matched geometry, date, method and mesh. The results view labels the occupancy used.",
+        "!Use search to find cases and open their saved geometry or results. The Trash hides a case and retains its files. Restore it from the Trash to make it visible again. A separate selection in Results distinguishes saved studies of the same case."
+      ],
+      "pics": [
+        "showcase/case-create-en.png"
+      ],
+      "caption": "Manual creation of a full-occupancy variant. The measured complex study uses a single load."
+    },
+    {
+      "path": "RESULTS  /  CONFIGURE STUDY",
+      "title": "Choose a method and budget",
+      "body": [
+        "<b>Fast OpenMC</b> converts photon fluence using the selected response and is useful for the air reference. <b>Intensive OpenMC</b> scores energy deposition in the load. This teaching run used the thick-target bremsstrahlung approximation for secondary electrons. <b>PHITS / EGS5</b> is an optional external transport engine. IRRADIUM checks availability before starting.",
+        "Choose analog isotropic sampling or the weighted mixture. A fraction of the mixture is directed toward the load and the rest is isotropic. The simulation corrects history weights. Some conditional source and weight-window schemes are experimental. Compare bias and uncertainty at equal cost before relying on them.",
+        "Set the date, cell size, CPU cores, histories, batches, and time and memory budgets. Pick complete route, selected stops or a consecutive interval. Smaller cells cost more memory and can require more histories. The default 2% maximum is an analysis target. This release runs a fixed history budget.",
+        "!Reproduce the main example with an isolated load, intensive OpenMC, 2 cm, 10 million histories per stop, 80% directed mixture, date 2026-01-01 and all 68 positions."
+      ],
+      "pics": [
+        "showcase/config-en.png"
+      ],
+      "caption": "Defaults for new cases. The study form also lets you set the budget for a specific run."
+    },
+    {
+      "path": "RESULTS  /  RUN STUDY",
+      "title": "Follow progress and resume",
+      "body": [
+        "Once the study starts, watch the current stage and the available map count. Preparation builds the geometry and cell representation. Transport scores histories, then postprocessing generates each map. The bar measures route coverage. Finalization can continue after the last map appears.",
+        "Pause requests a safe checkpoint. Resume loads the same study and retains completed positions. Stop ends execution and keeps available results. Reloading the interface does not submit a new study. Select the saved run to inspect partial or completed results.",
+        "!The calibration comparison was paused after three maps, then resumed after reloading the page. All 68 maps were completed under the same run identifier."
+      ],
+      "pics": [
+        "showcase/pause-en.png"
+      ],
+      "caption": "Paused calibration study with saved maps and the Resume simulation control."
+    },
+    {
+      "path": "RESULTS  /  3D IRRADIATOR",
+      "title": "Explore the complete route",
+      "body": [
+        "Use <b>3D irradiator</b> to see the available maps on their physical positions. Switch to <b>Top view +Z</b> or filter the upper or lower level. Use the common scale to compare positions. The dock offers camera views, material filters, opacity, slice axis and depth. A 100% cut shows the full load.",
+        "Select a load in the scene to open its individual result. Use <b>Show all</b> to stack the route, per-position panel and dose/time panel, or switch between them as tabs. In the profile, the line gives the mean and the band spans minimum to maximum.",
+        "!The route preview can reduce display detail for speed. The individual maps and VTI files retain the scored resolution."
+      ],
+      "pics": [
+        "showcase/route-3d-en.png"
+      ],
+      "caption": "Measured complex-load rate maps placed at their route positions."
+    },
+    {
+      "path": "RESULTS  /  BY POSITION",
+      "title": "Inspect volume, slices and isodoses",
+      "body": [
+        "In <b>Volume and materials</b>, choose dose rate, material or relative error. Filter the visible materials. Adjust the cut and opacity to look inside the load. Move XY and YZ cuts to inspect scored cells at a known plane.",
+        "In <b>3D isodose</b>, choose surfaces or bands, plane and smoothing. Define levels using percentiles, the mean, P99 or absolute values. Toggle levels using the legend. Display smoothing changes the images only.",
+        "Use <b>Full metrics</b> to check raw minimum, maximum, mean, DUR = maximum/minimum, and percentile ratios P90/P10, P95/P5 and P98/P02. A zero minimum leaves raw DUR undefined. Integral material means, when available, use deposited energy divided by material mass.",
+        "!Export views as PNG, the rate profile as CSV or SVG, and the scored field as VTI. Download saved STEP geometry from the case."
+      ],
+      "pics": [
+        "showcase/slices-en.png",
+        "showcase/isodose-en.png"
+      ],
+      "caption": "Scored XY/YZ planes and their corresponding 3D isodose controls."
+    },
+    {
+      "path": "RESULTS  /  DOSE AND TIME",
+      "title": "Check rotation in the superposition",
+      "body": [
+        "Choose the first and last position, or follow the available interval while a study runs. Select <b>Sum interval dose rates</b>. The transport calculation writes each position in the STEP reference frame, so cell indices follow the same physical point as the load turns.",
+        "Open <b>Check rotation alignment in superposition</b> and choose S8 → S9. Compare the after-turn world view with the same map aligned to the reference. The joined map uses all positions in the interval. The individual irradiator views keep world axes.",
+        "!The teaching route has seven 180° changes. An independent numerical check reproduced the saved full-route voxel sum and its propagated standard errors."
+      ],
+      "pics": [
+        "showcase/superposition-en.png"
+      ],
+      "caption": "World view and aligned XY slices around the first teaching turn."
+    },
+    {
+      "path": "RESULTS  /  DOSE AND TIME",
+      "title": "Calculate dose and dwell time",
+      "body": [
+        "Enter a total time, a uniform time per stop or an individual time per stop. For total time T at N stops, each stop uses T/N. The dose at voxel v is D(v) = Σ t(i)R(i,v). Use hours for t when the dose rate is in kGy/h. Total dwell time excludes transfers.",
+        "For the inverse problem choose a target and the minimum, mean or maximum criterion. Uniform dwell time is the target divided by that statistic of the aligned sum. A mean target specifies only the mean. Restore saved calculations from the selector and download their VTI maps.",
+        "!Measured example: 204 min over 68 stops gives a mean of <b>3.795 kGy</b> and a range of 2.173–5.104 kGy. Using the mean as the target returns 204.0001 min. A 2.5 kGy minimum target gives 3.452 min per stop and 234.72 min total."
+      ],
+      "pics": [
+        "showcase/dose-time-en.png"
+      ],
+      "caption": "Inverse dose and time calculation for the complete route."
+    },
+    {
+      "path": "VERIFICATION  /  MEASURED RESULTS",
+      "title": "Read the statistical precision",
+      "body": [
+        "The 54-body study finished in <b>22 min 52 s</b> using 12 threads and about 1.08 GiB peak RAM. It ran 680 million histories, with 25,920 cells and 2,252 active voxels. For the matched four-stop interval, increasing histories per stop from 1 to 10 million reduced the maximum relative error from 70.49% to 17.37%.",
+        "!Full-route sum with equal weights. <b>Maximum {MAX}%</b> · P90 {P90}% · P95 {P95}% · P98 {P98}%. All 2,252 active voxels have an estimate. <b>The 2% maximum target was not met.</b>",
+        "For independent positions, the standard error of each weighted sum is the square root of the sum of squared weighted standard errors. Relative error divides that result by the dose. P90, P95 and P98 describe the distribution across voxels. The maximum and the estimated/active cell counts determine whether the selected interval meets its target.",
+        "The summed map has a mean rate sum of 75.893 kGy/h and raw DUR 2.349. The 2 cm mesh gives no dominant active voxels for the thin silicone and steel pieces. Transport includes their geometry. The teaching results quantify sampling uncertainty. Calibration, source activity, geometry and model assumptions matter separately for operational use."
+      ],
+      "pics": [
+        "showcase/error-en.png"
+      ],
+      "caption": "Per-position uncertainty view. The figures above are for the complete aligned sum."
+    },
+    {
+      "path": "SIMULATOR CALIBRATION  /  AIR REFERENCE",
+      "title": "Compare both air calculations",
+      "body": [
+        "Open <b>Simulator calibration</b>. It prepares its own dry-air geometry. Set dimensions, date and cell size, then calculate the deterministic reference. The point-reference form reports photon fluence and converted alanine response for a selected XYZ location.",
+        "The deterministic model estimates free-field response. In <b>Calibration results</b>, run fast OpenMC with the same geometry, sources and date. Both maps use the alanine response in air. Open the comparison table, position maps or full route sum.",
+        "!At 2 cm and 500,000 histories per stop, the 68-position sums were <b>87.414</b> and <b>87.695 kGy/h</b>. OpenMC differed by <b>+{AIR}%</b> in the summed mean rates. The largest difference between position means was 1.97%. This checks the shared response calculation in the teaching geometry."
+      ],
+      "pics": [
+        "showcase/calibration-en.png"
+      ],
+      "caption": "Pairwise air comparison after completing the same resumed run."
+    },
+    {
+      "path": "MAINTENANCE  /  REFERENCES",
+      "title": "Reproduce, diagnose and uninstall",
+      "body": [
+        "Go to <b>docs/quickstart/results/</b> for the audited metrics and CSV exports for both calculated examples. The teaching STEP and input snapshots are under <b>app/examples/commercial_svst/</b>. For diagnosis, run <b>./irradium status</b> and inspect <b>workspace/Registros/</b>.",
+        "Study folders live in <b>workspace/irradiators/IV/Casos/</b>. They contain the case inputs, saved rate maps and dose/time scenarios. If disk usage interrupts a study, free disk space and use Resume when available. Keep the saved maps and checkpoint files together.",
+        "!Run <b>./uninstall.sh</b>. Preserving the workspace is the default. The program asks for explicit confirmation and removes its applications-menu entry. Reinstall in the same path to reuse a retained workspace. Use <b>./uninstall.sh --dry-run</b> to inspect the planned changes.",
+        "Commercial reference: <a href=\"https://www.irjet.net/archives/V2/i2/Irjet-v2i2196.pdf\">Tran Van Hung (2015), IRJET 2(2), 1075–1079</a>. Methods and data: <a href=\"https://docs.openmc.org/en/stable/methods/energy_deposition.html\">OpenMC energy deposition</a>, <a href=\"https://openmc.org/data/\">OpenMC data</a> and <a href=\"https://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/alanine.html\">NIST alanine coefficients</a>. IRRADIUM source and original teaching assets use MIT. Upstream software and nuclear data retain their notices."
+      ],
+      "pics": [],
+      "caption": ""
+    }
+  ],
+  "es": [
+    {
+      "path": "INSTALACIÓN",
+      "title": "Instala y abre IRRADIUM",
+      "body": [
+        "Descarga el paquete Linux x86-64 desde <a href=\"https://github.com/eealanoca/IRRADIUM/releases\">Releases en GitHub</a>. Usa una carpeta con permisos de escritura, un navegador, Bash, curl, tar y conexión a Internet. Reserva 20 GB libres más el espacio para estudios.",
+        "$sha256sum -c IRRADIUM-0.3.0-alpha.1-linux.tar.gz.sha256<br/>tar -xzf IRRADIUM-0.3.0-alpha.1-linux.tar.gz<br/>cd IRRADIUM<br/>./install.sh",
+        "El instalador guarda Python, Node, OpenMC y las herramientas CAD en la carpeta local. Descarga los datos oficiales ENDF/B-VII.1, verifica los HDF5 seleccionados y crea un índice local. Ejecuta de nuevo el instalador si falla la descarga. Instala PHITS por separado si lo necesitas.",
+        "!Abre <b>IRRADIUM</b> desde el menú de aplicaciones o ejecuta <b>./Iniciar_IRRADIUM.sh</b>. Entra en <a href=\"http://127.0.0.1:3001/\">127.0.0.1:3001</a> y selecciona Categoría IV. El entorno instalado usa una ruta fija."
+      ],
+      "pics": [
+        "01-inicio.png"
+      ],
+      "caption": "Las categorías I, II y III ofrecen vistas conceptuales."
+    },
+    {
+      "path": "INICIO  /  PRIMEROS PASOS",
+      "title": "Empieza con el caso didáctico",
+      "body": [
+        "Elige el idioma y el tema con los controles de sol y luna. Pliega el menú lateral para ampliar el visor. En la pantalla inicial puedes arrastrar el modelo conceptual, restablecer la vista y pausar la animación.",
+        "Abre <b>Primeros pasos</b>, avanza por las indicaciones y elige el <b>kit de fluidos</b>. El bloque de agua sirve como referencia más sencilla. Puedes omitir la guía y volver a abrirla desde el encabezado. Cada caso recibe su propio STEP, fuentes, recorrido y materiales.",
+        "!El estudio publicado del SVST-Co-60/B describe 68 posiciones en dos niveles con cuatro pasadas por nivel. La secuencia, los centros, los giros, las fuentes equivalentes y la fecha de actividad son supuestos didácticos. El modelo incluye la carga y omite el blindaje y los mecanismos de transporte."
+      ],
+      "pics": [
+        "02-guia.png",
+        "showcase/cad-en.png"
+      ],
+      "caption": "Asistente de primeros pasos y carga didáctica original de 54 cuerpos."
+    },
+    {
+      "path": "CARGA CAD  /  PREPARAR CARGA",
+      "title": "Inspecciona el CAD y asigna materiales",
+      "body": [
+        "Importa <b>medical_kit.step</b> desde <b>app/examples/commercial_svst/</b> o abre el caso didáctico en <b>Cargas guardadas</b>. El conjunto contiene agua, recipientes y bandejas de polipropileno, conexiones de policarbonato, aros de silicona y clips de acero. Mide 480 × 480 × 900 mm.",
+        "Para tu STEP usa sólidos cerrados y nombra los cuerpos con el prefijo exacto del material. Gira, desplaza y acerca la vista. Para generar una carga, elige EPS, depósitos de agua o mandarinas en bandejas, indica X/Y/Z y genera el STEP.",
+        "Selecciona una etiqueta detectada, indica la densidad en g/cm³ y la composición elemental y elige base atómica o másica. Para agua usa 1 g/cm³ y <b>{\"H\": 2, \"O\": 1}</b> en base atómica. El ejemplo incluye las demás definiciones en <b>config/materials.json</b>.",
+        "!El botón de creación se habilita cuando cada material detectado tiene una definición. Verifica las dimensiones y las etiquetas antes de guardar."
+      ],
+      "pics": [
+        "showcase/material-editor-en.png"
+      ],
+      "caption": "Asignación de materiales tras importar manualmente el STEP complejo."
+    },
+    {
+      "path": "FUENTES  /  CONFIGURACIÓN DEL IRRADIADOR",
+      "title": "Configura las fuentes y la fecha",
+      "body": [
+        "Selecciona una cápsula del rack para revisar su longitud activa, diámetro de 11 mm, extremos, actividad y fecha de referencia. Filtra por identificador. Usa <b>Añadir fuente</b> o <b>Editar fuente</b> para definir extremos en mm. El editor rechaza extremos coincidentes y actividad no positiva.",
+        "La fecha de referencia corresponde a la lectura de la fuente. La fecha de irradiación del estudio determina la corrección por decaimiento. Para un tiempo Δt, multiplica la actividad de referencia por 2<super>−Δt/T½</super>, con las mismas unidades de tiempo.",
+        "!Los doce cilindros equivalentes de Co-60 pertenecen al ejemplo didáctico. Al guardar un caso se copia su inventario para poder reproducirlo."
+      ],
+      "pics": [
+        "showcase/sources-en.png"
+      ],
+      "caption": "Rack y detalle de la fuente equivalente seleccionada en la configuración didáctica."
+    },
+    {
+      "path": "POSICIONES  /  EDITAR RECORRIDO",
+      "title": "Configura los giros alrededor de Z",
+      "body": [
+        "Abre <b>Posiciones → Editar recorrido</b>. Elige la referencia del STEP, centro de la caja envolvente o centro de la base. Introduce X, Y y Z en mm y el <b>giro absoluto alrededor de Z</b> en grados en cada parada. Usa el desfase global si necesitas ajustar los ejes del CAD importado.",
+        "!En el recorrido didáctico, S8 tiene 180° y S9 tiene 0°. El cambio entre ambas paradas es de 180°. Indica el ángulo de cada parada, incluido 0°. El giro efectivo suma el desfase global del CAD.",
+        "Usa las flechas para reordenar paradas, añade o quita filas y guarda. Resalta una posición en el visor 3D. Revisa las distancias y cambios de orientación en la tabla. Los casos nuevos toman el recorrido guardado. Para estudiar una configuración distinta, prepara un nuevo caso."
+      ],
+      "pics": [
+        "showcase/rotations-en.png",
+        "showcase/positions-en.png"
+      ],
+      "caption": "Ángulos editables y vista del recorrido. Las distancias son rectas entre los puntos de referencia guardados."
+    },
+    {
+      "path": "CASOS DE IRRADIACIÓN  /  PARÁMETROS DE SIMULACIÓN",
+      "title": "Guarda un caso reproducible",
+      "body": [
+        "En <b>Parámetros de simulación</b>, fija valores predeterminados y, si quieres, guarda un perfil con nombre. Selecciona todo el recorrido o añade paradas desde el menú. La selección conserva los giros y sigue el orden guardado. En <b>Casos de irradiación</b>, indica nombre y descripción, elige método y ocupación y crea el caso.",
+        "Elige <b>Una sola carga</b> para el caso aislado u <b>Ocupación completa</b> para incluir atenuación y dispersión por cargas vecinas. Compara ambas opciones con la misma geometría, fecha, método y malla. La vista de resultados identifica la ocupación usada.",
+        "!Busca casos por nombre o descripción y abre su CAD o sus resultados. La papelera oculta el caso y conserva sus archivos. Usa <b>Restaurar</b> para volver a mostrarlo. En Resultados, otro selector distingue los estudios guardados de un mismo caso."
+      ],
+      "pics": [
+        "showcase/case-create-en.png"
+      ],
+      "caption": "Creación manual de una variante con ocupación completa. El estudio complejo medido usa una sola carga."
+    },
+    {
+      "path": "RESULTADOS  /  CONFIGURAR ESTUDIO",
+      "title": "Elige el método y el presupuesto",
+      "body": [
+        "<b>OpenMC rápido</b> convierte la fluencia fotónica con la respuesta elegida y sirve para la referencia en aire. <b>OpenMC intensivo</b> estima el depósito de energía en la carga. Este estudio usó la aproximación de bremsstrahlung en blanco grueso para electrones secundarios. <b>PHITS / EGS5</b> es un motor externo opcional. IRRADIUM comprueba su disponibilidad antes de arrancar.",
+        "Elige muestreo isotrópico analógico o fuente mixta ponderada. Una fracción se dirige hacia la carga y el resto es isotrópico. La simulación corrige los pesos. Algunas variantes de fuente condicionada y ventanas de peso son experimentales. Compara sesgo e incertidumbre a igual coste antes de usarlas.",
+        "Indica fecha, malla, núcleos, historias, lotes y límites de tiempo y memoria. Elige recorrido completo, paradas seleccionadas o un intervalo consecutivo. Las celdas menores consumen más memoria y pueden requerir más historias. El 2% máximo predeterminado es una meta de análisis. Esta versión ejecuta un presupuesto fijo de historias.",
+        "!Para reproducir el ejemplo usa carga aislada, OpenMC intensivo, 2 cm, 10 millones de historias por parada, 80% de mezcla dirigida, fecha 2026-01-01 y las 68 posiciones."
+      ],
+      "pics": [
+        "showcase/config-en.png"
+      ],
+      "caption": "Valores para casos nuevos. El formulario del estudio permite ajustar su presupuesto."
+    },
+    {
+      "path": "RESULTADOS  /  EJECUTAR ESTUDIO",
+      "title": "Sigue el avance y reanuda",
+      "body": [
+        "Al iniciar el estudio, observa la etapa actual y el número de mapas disponibles. La preparación construye la geometría y la representación celular. El transporte puntúa historias y el posprocesamiento genera cada mapa. La barra mide cobertura del recorrido. El guardado final puede seguir cuando ya aparecen todos los mapas.",
+        "Pausar solicita un punto seguro. Continuar carga el mismo estudio y conserva las posiciones completadas. Detener finaliza la ejecución y conserva los resultados disponibles. Recargar la interfaz no inicia otro estudio. Selecciona la ejecución guardada para revisar resultados parciales o completos.",
+        "!La comparación de calibración se pausó tras tres mapas, y se reanudó después de recargar la página. Completó los 68 mapas con el mismo identificador."
+      ],
+      "pics": [
+        "showcase/pause-en.png"
+      ],
+      "caption": "Estudio de calibración pausado con mapas guardados y el botón Continuar simulación."
+    },
+    {
+      "path": "RESULTADOS  /  IRRADIADOR 3D",
+      "title": "Explora el recorrido completo",
+      "body": [
+        "Usa <b>Irradiador 3D</b> para ver los mapas en sus posiciones físicas. Cambia a <b>Planta +Z</b> o filtra por nivel superior o inferior. Usa la escala común para comparar paradas. La barra ofrece vistas de cámara, filtro de materiales, opacidad, eje y profundidad de corte. Un corte al 100% muestra la carga completa.",
+        "Selecciona una carga en la escena para abrir su resultado individual. Usa <b>Mostrar todo</b> para apilar recorrido, panel por posición y dosis y tiempos, o alterna entre las pestañas. En el perfil, la línea indica la media y la banda abarca de mínimo a máximo.",
+        "!La vista general puede reducir el detalle para ganar fluidez. Los mapas individuales y los VTI conservan la resolución del cálculo."
+      ],
+      "pics": [
+        "showcase/route-3d-en.png"
+      ],
+      "caption": "Mapas de tasa del kit complejo colocados en las posiciones del recorrido."
+    },
+    {
+      "path": "RESULTADOS  /  POR POSICIÓN",
+      "title": "Inspecciona volumen, cortes e isodosis",
+      "body": [
+        "En <b>Volumen y materiales</b>, elige tasa, material o error relativo. Filtra los materiales visibles. Ajusta el corte y la opacidad para ver el interior. Desplaza los cortes XY e YZ para explorar las celdas de un plano conocido.",
+        "En <b>Isodosis 3D</b>, elige superficies o bandas, plano y suavizado. Define niveles con percentiles, media, P99 o valores absolutos. Activa o desactiva niveles en la leyenda. El suavizado solo afecta a la imagen.",
+        "Usa <b>Métricas completas</b> para consultar mínimo, máximo, media, DUR crudo = máximo/mínimo y razones P90/P10, P95/P5 y P98/P02. Un mínimo cero deja el DUR crudo indefinido. La media integral de un material, cuando está disponible, usa energía depositada dividida por su masa.",
+        "!Exporta vistas como PNG, el perfil como CSV o SVG y la malla con resultados como VTI. Descarga el STEP guardado desde el caso."
+      ],
+      "pics": [
+        "showcase/slices-en.png",
+        "showcase/isodose-en.png"
+      ],
+      "caption": "Planos XY/YZ calculados y controles de isodosis 3D."
+    },
+    {
+      "path": "RESULTADOS  /  DOSIS Y TIEMPOS",
+      "title": "Comprueba los giros en la superposición",
+      "body": [
+        "Elige las posiciones inicial y final o sigue el intervalo disponible mientras avanza el estudio. Selecciona <b>Sumar tasas del intervalo</b>. El transporte escribe cada posición en el sistema de referencia del STEP. Así, los índices siguen el mismo punto físico aunque gire la carga.",
+        "Abre <b>Comprobar la superposición en el giro</b> y selecciona S8 → S9. Compara el mapa posterior al giro en los ejes del irradiador con el mismo mapa alineado a la referencia. La suma usa todas las posiciones del intervalo. Las vistas individuales mantienen los ejes del irradiador.",
+        "!El recorrido didáctico tiene siete cambios de 180°. Una comprobación numérica independiente reprodujo la suma de los vóxeles y sus errores estándar propagados."
+      ],
+      "pics": [
+        "showcase/superposition-en.png"
+      ],
+      "caption": "Vista del irradiador y cortes XY alineados en el primer giro del ejemplo."
+    },
+    {
+      "path": "RESULTADOS  /  DOSIS Y TIEMPOS",
+      "title": "Calcula dosis y tiempo de estancia",
+      "body": [
+        "Introduce tiempo total, tiempo uniforme por parada o tiempos individuales. Para un tiempo total T en N paradas, asigna T/N a cada una. La dosis en el vóxel v es D(v) = Σ t(i)R(i,v). Usa horas para t si la tasa está en kGy/h. El tiempo de estancia excluye traslados.",
+        "Para el cálculo inverso elige la dosis objetivo y el criterio de mínimo, media o máximo. La estancia uniforme resulta de dividir el objetivo por esa estadística de la suma alineada. Un objetivo medio fija la media. Recupera los cálculos desde el selector y descarga sus mapas VTI.",
+        "!Ejemplo medido. 204 min en 68 paradas dan una media de <b>3,795 kGy</b> y un rango de 2,173–5,104 kGy. Usar esa media como objetivo devuelve 204,0001 min. Un mínimo objetivo de 2,5 kGy da 3,452 min por parada y 234,72 min en total."
+      ],
+      "pics": [
+        "showcase/dose-time-en.png"
+      ],
+      "caption": "Cálculo inverso de dosis y tiempo en el recorrido completo."
+    },
+    {
+      "path": "VERIFICACIÓN  /  RESULTADOS MEDIDOS",
+      "title": "Interpreta la precisión estadística",
+      "body": [
+        "El estudio de 54 cuerpos terminó en <b>22 min 52 s</b>, con 12 hilos y aproximadamente 1,08 GiB de RAM máxima. Ejecutó 680 millones de historias, con 25.920 celdas y 2.252 vóxeles activos. En el mismo intervalo de cuatro paradas, pasar de 1 a 10 millones de historias por parada redujo el error relativo máximo del 70,49% al 17,37%.",
+        "!Suma del recorrido con pesos iguales. <b>Máximo {MAX}%</b> · P90 {P90}% · P95 {P95}% · P98 {P98}%. Los 2.252 vóxeles activos tienen estimación. <b>El máximo supera la meta del 2%.</b>",
+        "Para posiciones independientes, el error estándar de la suma ponderada es la raíz de la suma de los cuadrados de los errores ponderados. El error relativo divide ese resultado por la dosis. P90, P95 y P98 describen la distribución entre vóxeles. El máximo y la cobertura de celdas con estimación determinan si se cumple la meta.",
+        "La suma tiene una tasa media de 75,893 kGy/h y DUR crudo de 2,349. En la malla de 2 cm las piezas finas de silicona y acero no dominan ningún vóxel activo. El transporte incluye su geometría. Los resultados cuantifican la incertidumbre del muestreo. Para un uso operativo también importan la calibración, la actividad, la geometría y los supuestos."
+      ],
+      "pics": [
+        "showcase/error-en.png"
+      ],
+      "caption": "Vista de incertidumbre por posición. Las cifras del texto corresponden a la suma alineada completa."
+    },
+    {
+      "path": "CALIBRACIÓN DEL SIMULADOR  /  REFERENCIA EN AIRE",
+      "title": "Compara los dos cálculos en aire",
+      "body": [
+        "Abre <b>Calibración del simulador</b>. La sección prepara su propia geometría de aire seco. Ajusta dimensiones, fecha y malla, y calcula la referencia determinista. El formulario puntual informa la fluencia fotónica y la respuesta convertida de alanina en una ubicación XYZ.",
+        "El modelo determinista estima la respuesta en campo libre. En <b>Resultados de calibración</b>, ejecuta OpenMC rápido con la misma geometría, fuentes y fecha. Los dos mapas usan respuesta de alanina en aire. Abre la tabla comparativa, los mapas por posición o la suma del recorrido.",
+        "!Con 2 cm y 500.000 historias por parada, las sumas de las 68 posiciones fueron <b>87,414</b> y <b>87,695 kGy/h</b>. OpenMC difirió <b>+{AIR}%</b> en la suma de tasas medias. La diferencia máxima entre medias por posición fue del 1,97%. La comparación comprueba el cálculo de la misma respuesta en la geometría didáctica."
+      ],
+      "pics": [
+        "showcase/calibration-en.png"
+      ],
+      "caption": "Comparación en aire tras finalizar la misma ejecución que se reanudó."
+    },
+    {
+      "path": "MANTENIMIENTO  /  REFERENCIAS",
+      "title": "Reproduce, diagnostica y desinstala",
+      "body": [
+        "Consulta <b>docs/quickstart/results/</b> para las métricas verificadas y los CSV de ambos cálculos. El STEP y las entradas didácticas están en <b>app/examples/commercial_svst/</b>. Para diagnosticar, ejecuta <b>./irradium status</b> y revisa <b>workspace/Registros/</b>.",
+        "Los estudios se guardan en <b>workspace/irradiators/IV/Casos/</b>. Allí se conservan las entradas, los mapas de tasa y los cálculos de dosis y tiempo. Si falta espacio, libera disco y usa Continuar cuando esté disponible. Conserva juntos los mapas y archivos de continuación.",
+        "!Ejecuta <b>./uninstall.sh</b>. Conservar el espacio de trabajo es la opción predeterminada. El programa pide confirmación explícita y retira su acceso del menú. Reinstala en la misma ruta para reutilizar los datos. Usa <b>./uninstall.sh --dry-run</b> para ver los cambios previstos.",
+        "Referencia comercial: <a href=\"https://www.irjet.net/archives/V2/i2/Irjet-v2i2196.pdf\">Tran Van Hung (2015), IRJET 2(2), 1075–1079</a>. Métodos y datos: <a href=\"https://docs.openmc.org/en/stable/methods/energy_deposition.html\">depósito de energía en OpenMC</a>, <a href=\"https://openmc.org/data/\">datos de OpenMC</a> y <a href=\"https://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/alanine.html\">coeficientes de alanina de NIST</a>. El código y los recursos originales de IRRADIUM usan MIT. Las dependencias y los datos conservan sus avisos."
+      ],
+      "pics": [],
+      "caption": ""
+    }
+  ]
+}

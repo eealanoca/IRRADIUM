@@ -1,0 +1,46 @@
+{
+  "id": "svst-teaching-v1",
+  "name": "SVST-Co-60/B · reconstrucción didáctica",
+  "version": 1,
+  "category": "IV",
+  "source_url": "https://www.irjet.net/archives/V2/i2/Irjet-v2i2196.pdf",
+  "citation": "Tran Van Hung (2015), IRJET 2(2), 1075–1079.",
+  "published": {
+    "positions": 68,
+    "levels": 2,
+    "rows_per_level": 4,
+    "nominal_tote_mm": [
+      500,
+      500,
+      900
+    ],
+    "inner_tote_mm": [
+      480,
+      480,
+      900
+    ],
+    "dwell_seconds": 180,
+    "historical_reference_activity_kci": 280,
+    "source_racks": 3,
+    "modules_per_rack": 4
+  },
+  "reconstructed": {
+    "center_spacing_x_mm": 550,
+    "row_y_mm": [
+      800,
+      1400,
+      -800,
+      -1400
+    ],
+    "level_centers_z_mm": [
+      500,
+      -500
+    ],
+    "rotation_rule": "180 degrees on reversing X direction; illustrative assumption, NOT verified mechanical rotations",
+    "sources": "12 equivalent uniform cylinders, diameter 11 mm; endpoints and activity distribution synthetic",
+    "load": "Original 54-body, five-material medical-fluid kit or homogeneous water block, 480 x 480 x 900 mm; separate air-load reference",
+    "date": "2026-01-01 is a didactic reference date only"
+  },
+  "excluded": "Bunker, pool, shielding, aluminum tote and transport mechanisms are not modeled. Not a shielding study or manufacturer validation.",
+  "license": "MIT for original JSON/CAD; cited publication and commercial name retain their own rights."
+}

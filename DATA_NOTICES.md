@@ -1,0 +1,7 @@
+# Datos y componentes externos
+
+El código original de IRRADIUM se distribuye bajo MIT, conservando el aviso MIT de SIM Gamma. Las bibliotecas instaladas mantienen sus propias licencias: consulta `app/THIRD_PARTY_NOTICES.md` y los avisos incluidos en cada paquete Conda, pip y npm. PHITS/EGS5 no se redistribuyen.
+
+Los datos nucleares NO forman parte del repositorio ni del instalador comprimido. Se descargan de la biblioteca oficial de OpenMC ENDF/B-VII.1 (procesada con NJOY 2016.68): https://openmc.org/data/ . Evaluaciones y atribuciones: https://www.nndc.bnl.gov/endf-b7.1/ . No se pretende relicenciar esas evaluaciones bajo MIT. El manifiesto local registra el origen, versión, perfil, huellas y archivos conservados. El perfil de transporte gamma conserva fotones completos y datos de inicialización de materiales; no admite una instalación de solo fotones en OpenMC 0.15.3.
+
+El ejemplo comercial es una reconstrucción educativa original inspirada en Tran Van Hung (2015), IRJET 2(2), 1075–1079: https://www.irjet.net/archives/V2/i2/Irjet-v2i2196.pdf . No se redistribuyen el artículo, dibujos ni logotipos de fabricantes. Los JSON, STEP y capturas propios son MIT. El nombre comercial se usa solo para identificar la referencia. `app/examples/commercial_svst/provenance.json` distingue parámetros publicados y sintéticos. No es una réplica certificada, una validación frente a dosimetría experimental ni un diseño de blindaje.

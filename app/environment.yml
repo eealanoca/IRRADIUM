@@ -1,0 +1,27 @@
+name: irradium-main
+
+channels:
+  - conda-forge
+
+dependencies:
+  # OpenMC 0.15.3 corrige el bloqueo del ray tracing de mallas regulares
+  # presente en 0.14.x. La variante DAGMC con MPICH requiere Python 3.11.
+  - python=3.11
+  - nodejs=24
+  - pip
+  - openmc=0.15.3=dagmc_mpi_mpich_*
+  - libglu
+  - mpich
+  - mpi4py
+  - h5py
+
+  # Calculo determinista y postproceso cientifico.
+  - numpy<3
+  - scipy
+  - pandas
+  - matplotlib-base
+  - psutil
+
+  # Las dependencias que solo se distribuyen por PyPI se mantienen aparte.
+  - pip:
+      - -r requirements.txt

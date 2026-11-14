@@ -1,0 +1,13 @@
+name: irradium-cad
+
+channels:
+  - conda-forge
+
+dependencies:
+  # MOAB 5.5.1 conserva los bindings Python (pymoab) que requiere
+  # CAD-to-OpenMC. Se aísla para no degradar MOAB/OpenMC del transporte.
+  - python=3.11
+  - moab=5.5.1=mpi_mpich_tempest_py311*
+  - cad-to-openmc=0.3.4=py311*
+  # pymoab 5.5.1 todavía importa pkg_resources.
+  - setuptools<81

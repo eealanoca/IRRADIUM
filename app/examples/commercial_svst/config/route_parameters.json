@@ -1,0 +1,633 @@
+{
+  "positions": [
+    {
+      "name": "S1",
+      "center_mm": [
+        1925.0,
+        800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S2",
+      "center_mm": [
+        1375.0,
+        800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S3",
+      "center_mm": [
+        825.0,
+        800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S4",
+      "center_mm": [
+        275.0,
+        800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S5",
+      "center_mm": [
+        -275.0,
+        800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S6",
+      "center_mm": [
+        -825.0,
+        800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S7",
+      "center_mm": [
+        -1375.0,
+        800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S8",
+      "center_mm": [
+        -1925.0,
+        800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S9",
+      "center_mm": [
+        -1925.0,
+        1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S10",
+      "center_mm": [
+        -1375.0,
+        1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S11",
+      "center_mm": [
+        -825.0,
+        1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S12",
+      "center_mm": [
+        -275.0,
+        1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S13",
+      "center_mm": [
+        275.0,
+        1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S14",
+      "center_mm": [
+        825.0,
+        1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S15",
+      "center_mm": [
+        1375.0,
+        1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S16",
+      "center_mm": [
+        1925.0,
+        1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S17",
+      "center_mm": [
+        2200.0,
+        -800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S18",
+      "center_mm": [
+        1650.0,
+        -800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S19",
+      "center_mm": [
+        1100.0,
+        -800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S20",
+      "center_mm": [
+        550.0,
+        -800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S21",
+      "center_mm": [
+        0.0,
+        -800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S22",
+      "center_mm": [
+        -550.0,
+        -800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S23",
+      "center_mm": [
+        -1100.0,
+        -800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S24",
+      "center_mm": [
+        -1650.0,
+        -800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S25",
+      "center_mm": [
+        -2200.0,
+        -800,
+        500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "S26",
+      "center_mm": [
+        -2200.0,
+        -1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S27",
+      "center_mm": [
+        -1650.0,
+        -1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S28",
+      "center_mm": [
+        -1100.0,
+        -1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S29",
+      "center_mm": [
+        -550.0,
+        -1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S30",
+      "center_mm": [
+        0.0,
+        -1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S31",
+      "center_mm": [
+        550.0,
+        -1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S32",
+      "center_mm": [
+        1100.0,
+        -1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S33",
+      "center_mm": [
+        1650.0,
+        -1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "S34",
+      "center_mm": [
+        2200.0,
+        -1400,
+        500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I1",
+      "center_mm": [
+        2200.0,
+        1400,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I2",
+      "center_mm": [
+        1650.0,
+        1400,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I3",
+      "center_mm": [
+        1100.0,
+        1400,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I4",
+      "center_mm": [
+        550.0,
+        1400,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I5",
+      "center_mm": [
+        0.0,
+        1400,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I6",
+      "center_mm": [
+        -550.0,
+        1400,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I7",
+      "center_mm": [
+        -1100.0,
+        1400,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I8",
+      "center_mm": [
+        -1650.0,
+        1400,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I9",
+      "center_mm": [
+        -2200.0,
+        1400,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I10",
+      "center_mm": [
+        -2200.0,
+        800,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I11",
+      "center_mm": [
+        -1650.0,
+        800,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I12",
+      "center_mm": [
+        -1100.0,
+        800,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I13",
+      "center_mm": [
+        -550.0,
+        800,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I14",
+      "center_mm": [
+        0.0,
+        800,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I15",
+      "center_mm": [
+        550.0,
+        800,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I16",
+      "center_mm": [
+        1100.0,
+        800,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I17",
+      "center_mm": [
+        1650.0,
+        800,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I18",
+      "center_mm": [
+        2200.0,
+        800,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I19",
+      "center_mm": [
+        1925.0,
+        -800,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I20",
+      "center_mm": [
+        1375.0,
+        -800,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I21",
+      "center_mm": [
+        825.0,
+        -800,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I22",
+      "center_mm": [
+        275.0,
+        -800,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I23",
+      "center_mm": [
+        -275.0,
+        -800,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I24",
+      "center_mm": [
+        -825.0,
+        -800,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I25",
+      "center_mm": [
+        -1375.0,
+        -800,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I26",
+      "center_mm": [
+        -1925.0,
+        -800,
+        -500
+      ],
+      "yaw_degrees": 180
+    },
+    {
+      "name": "I27",
+      "center_mm": [
+        -1925.0,
+        -1400,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I28",
+      "center_mm": [
+        -1375.0,
+        -1400,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I29",
+      "center_mm": [
+        -825.0,
+        -1400,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I30",
+      "center_mm": [
+        -275.0,
+        -1400,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I31",
+      "center_mm": [
+        275.0,
+        -1400,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I32",
+      "center_mm": [
+        825.0,
+        -1400,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I33",
+      "center_mm": [
+        1375.0,
+        -1400,
+        -500
+      ],
+      "yaw_degrees": 0
+    },
+    {
+      "name": "I34",
+      "center_mm": [
+        1925.0,
+        -1400,
+        -500
+      ],
+      "yaw_degrees": 0
+    }
+  ],
+  "calculation_positions": null,
+  "radionuclide": "Co-60",
+  "cpu_cores": -1,
+  "particles": 100000000,
+  "batches": 20,
+  "cell_size_cm": 2,
+  "relative_error_target": 0.05,
+  "accumulated_error_target": 0.02,
+  "interval_max_particles": 300000000,
+  "interval_time_limit_seconds": 18000,
+  "dose_tally": "heating",
+  "occupancy": "isolated",
+  "position_reference": "center",
+  "variance_reduction": "source_mixture",
+  "source_mixture_fraction": 0.5,
+  "cad_offset_degrees": 0,
+  "deterministic_samples": 10000
+}

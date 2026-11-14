@@ -1,0 +1,36 @@
+{
+  "radionuclide": "Co-60",
+  "movement": {
+    "default_work_section": "A",
+    "machine_angle_start_degrees": 0,
+    "machine_angle_stop_degrees": 360,
+    "machine_angle_step_degrees": 10,
+    "angular_positions_range": [
+      1,
+      13
+    ],
+    "cad_rotation_degrees": 0.0,
+    "length_complete_lower_range_mm": [
+      -800,
+      200
+    ],
+    "length_complete_upper_range_mm": [
+      200,
+      700
+    ],
+    "resolution_length_mm": 500
+  },
+  "deterministic": {
+    "num_points": 10000
+  },
+  "compute": {
+    "cpu_cores": -1
+  },
+  "monte_carlo": {
+    "cell_size_cm": 2.0,
+    "particles": 100000000,
+    "batches": 100,
+    "relative_error_target": 0.03,
+    "dose_tally": "flux"
+  }
+}

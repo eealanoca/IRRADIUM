@@ -1,0 +1,364 @@
+{
+  "profiles": [
+    {
+      "profile_id": "configuracion-normal",
+      "name": "Configuración normal",
+      "parameters": {
+        "radionuclide": "Co-60",
+        "movement": {
+          "default_work_section": "A",
+          "machine_angle_start_degrees": 0,
+          "machine_angle_stop_degrees": 360,
+          "machine_angle_step_degrees": 10,
+          "angular_positions_range": [
+            1,
+            13
+          ],
+          "cad_rotation_degrees": 0.0,
+          "length_complete_lower_range_mm": [
+            -800,
+            200
+          ],
+          "length_complete_upper_range_mm": [
+            200,
+            700
+          ],
+          "resolution_length_mm": 500
+        },
+        "deterministic": {
+          "num_points": 10000
+        },
+        "compute": {
+          "cpu_cores": -1
+        },
+        "monte_carlo": {
+          "cell_size_cm": 2.0,
+          "particles": 100000000,
+          "batches": 100,
+          "relative_error_target": 0.03,
+          "dose_tally": "flux"
+        }
+      }
+    },
+    {
+      "profile_id": "configuracion-prueba-amplio-vertical",
+      "name": "Configuración prueba amplio vertical",
+      "parameters": {
+        "radionuclide": "Co-60",
+        "movement": {
+          "default_work_section": "A",
+          "machine_angle_start_degrees": 0,
+          "machine_angle_stop_degrees": 360,
+          "machine_angle_step_degrees": 10,
+          "angular_positions_range": [
+            1,
+            13
+          ],
+          "cad_rotation_degrees": 0.0,
+          "length_complete_lower_range_mm": [
+            -2000,
+            -1000
+          ],
+          "length_complete_upper_range_mm": [
+            1000,
+            2000
+          ],
+          "resolution_length_mm": 1000
+        },
+        "deterministic": {
+          "num_points": 10000
+        },
+        "compute": {
+          "cpu_cores": -1
+        },
+        "monte_carlo": {
+          "cell_size_cm": 3.0,
+          "particles": 100000000,
+          "batches": 100,
+          "relative_error_target": 0.03,
+          "dose_tally": "flux"
+        }
+      }
+    },
+    {
+      "profile_id": "configuracion-normal-calculo-rapido",
+      "name": "Configuración normal calculo rapido",
+      "parameters": {
+        "radionuclide": "Co-60",
+        "movement": {
+          "default_work_section": "A",
+          "machine_angle_start_degrees": 0,
+          "machine_angle_stop_degrees": 360,
+          "machine_angle_step_degrees": 10,
+          "angular_positions_range": [
+            1,
+            13
+          ],
+          "cad_rotation_degrees": 0.0,
+          "length_complete_lower_range_mm": [
+            -800,
+            200
+          ],
+          "length_complete_upper_range_mm": [
+            200,
+            700
+          ],
+          "resolution_length_mm": 500
+        },
+        "deterministic": {
+          "num_points": 10000
+        },
+        "compute": {
+          "cpu_cores": -1
+        },
+        "monte_carlo": {
+          "cell_size_cm": 2.0,
+          "particles": 100000000,
+          "batches": 100,
+          "relative_error_target": 0.03,
+          "dose_tally": "flux"
+        }
+      }
+    },
+    {
+      "profile_id": "configuracion-normal-calculo-intensivo-10-11",
+      "name": "Configuración normal calculo intensivo 10^11",
+      "parameters": {
+        "radionuclide": "Co-60",
+        "movement": {
+          "default_work_section": "A",
+          "machine_angle_start_degrees": 0,
+          "machine_angle_stop_degrees": 360,
+          "machine_angle_step_degrees": 10,
+          "angular_positions_range": [
+            1,
+            13
+          ],
+          "cad_rotation_degrees": 0.0,
+          "length_complete_lower_range_mm": [
+            -800,
+            200
+          ],
+          "length_complete_upper_range_mm": [
+            200,
+            700
+          ],
+          "resolution_length_mm": 500
+        },
+        "deterministic": {
+          "num_points": 10000
+        },
+        "compute": {
+          "cpu_cores": -1
+        },
+        "monte_carlo": {
+          "cell_size_cm": 2.0,
+          "particles": 100000000000,
+          "batches": 100,
+          "relative_error_target": 0.03,
+          "dose_tally": "heating"
+        }
+      }
+    },
+    {
+      "profile_id": "configuracion-normal-calculo-intensivo",
+      "name": "Configuración normal cálculo intensivo",
+      "parameters": {
+        "radionuclide": "Co-60",
+        "movement": {
+          "default_work_section": "A",
+          "machine_angle_start_degrees": 0,
+          "machine_angle_stop_degrees": 360,
+          "machine_angle_step_degrees": 10,
+          "angular_positions_range": [
+            1,
+            13
+          ],
+          "cad_rotation_degrees": 0.0,
+          "length_complete_lower_range_mm": [
+            -800,
+            200
+          ],
+          "length_complete_upper_range_mm": [
+            200,
+            700
+          ],
+          "resolution_length_mm": 500
+        },
+        "deterministic": {
+          "num_points": 10000
+        },
+        "compute": {
+          "cpu_cores": -1
+        },
+        "monte_carlo": {
+          "cell_size_cm": 2.0,
+          "particles": 1000000000,
+          "batches": 100,
+          "relative_error_target": 0.03,
+          "dose_tally": "heating"
+        }
+      }
+    },
+    {
+      "profile_id": "configuracion-normal-calculo-alternativo",
+      "name": "Configuración normal calculo alternativo",
+      "parameters": {
+        "radionuclide": "Co-60",
+        "movement": {
+          "default_work_section": "A",
+          "machine_angle_start_degrees": 0,
+          "machine_angle_stop_degrees": 360,
+          "machine_angle_step_degrees": 10,
+          "angular_positions_range": [
+            1,
+            13
+          ],
+          "cad_rotation_degrees": 0.0,
+          "length_complete_lower_range_mm": [
+            -800,
+            200
+          ],
+          "length_complete_upper_range_mm": [
+            200,
+            700
+          ],
+          "resolution_length_mm": 500
+        },
+        "deterministic": {
+          "num_points": 10000
+        },
+        "compute": {
+          "cpu_cores": -1
+        },
+        "monte_carlo": {
+          "cell_size_cm": 2.0,
+          "particles": 200000000,
+          "batches": 100,
+          "relative_error_target": 0.03,
+          "dose_tally": "alanine"
+        }
+      }
+    },
+    {
+      "profile_id": "configuracion-base-phits",
+      "name": "Configuración base phits",
+      "parameters": {
+        "radionuclide": "Co-60",
+        "movement": {
+          "default_work_section": "A",
+          "machine_angle_start_degrees": 0,
+          "machine_angle_stop_degrees": 360,
+          "machine_angle_step_degrees": 10,
+          "angular_positions_range": [
+            1,
+            13
+          ],
+          "cad_rotation_degrees": 0.0,
+          "length_complete_lower_range_mm": [
+            -800,
+            200
+          ],
+          "length_complete_upper_range_mm": [
+            200,
+            700
+          ],
+          "resolution_length_mm": 500
+        },
+        "deterministic": {
+          "num_points": 10000
+        },
+        "compute": {
+          "cpu_cores": -1
+        },
+        "monte_carlo": {
+          "cell_size_cm": 4.0,
+          "particles": 100000000,
+          "batches": 20,
+          "relative_error_target": 0.03,
+          "dose_tally": "phits"
+        }
+      }
+    },
+    {
+      "profile_id": "ejemplo-alimentos-intensivo-10m",
+      "name": "Ejemplo alimentos · cálculo intensivo · 10 millones",
+      "parameters": {
+        "radionuclide": "Co-60",
+        "movement": {
+          "default_work_section": "A",
+          "machine_angle_start_degrees": 0,
+          "machine_angle_stop_degrees": 360,
+          "machine_angle_step_degrees": 10,
+          "angular_positions_range": [
+            1,
+            13
+          ],
+          "cad_rotation_degrees": 0.0,
+          "length_complete_lower_range_mm": [
+            -800,
+            200
+          ],
+          "length_complete_upper_range_mm": [
+            200,
+            700
+          ],
+          "resolution_length_mm": 500
+        },
+        "deterministic": {
+          "num_points": 5000
+        },
+        "compute": {
+          "cpu_cores": -1
+        },
+        "monte_carlo": {
+          "cell_size_cm": 5.0,
+          "particles": 10000000,
+          "batches": 100,
+          "relative_error_target": 0.03,
+          "dose_tally": "heating"
+        }
+      }
+    },
+    {
+      "profile_id": "ejemplo-alimentos-phits-10m",
+      "name": "Ejemplo alimentos · PHITS · 10 millones",
+      "parameters": {
+        "radionuclide": "Co-60",
+        "movement": {
+          "default_work_section": "A",
+          "machine_angle_start_degrees": 0,
+          "machine_angle_stop_degrees": 360,
+          "machine_angle_step_degrees": 10,
+          "angular_positions_range": [
+            1,
+            13
+          ],
+          "cad_rotation_degrees": 0.0,
+          "length_complete_lower_range_mm": [
+            -800,
+            200
+          ],
+          "length_complete_upper_range_mm": [
+            200,
+            700
+          ],
+          "resolution_length_mm": 500
+        },
+        "deterministic": {
+          "num_points": 5000
+        },
+        "compute": {
+          "cpu_cores": -1
+        },
+        "monte_carlo": {
+          "cell_size_cm": 5.0,
+          "particles": 10000000,
+          "batches": 20,
+          "relative_error_target": 0.03,
+          "dose_tally": "phits"
+        }
+      }
+    }
+  ]
+}

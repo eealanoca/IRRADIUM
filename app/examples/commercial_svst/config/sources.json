@@ -1,0 +1,217 @@
+{
+  "sources": [
+    {
+      "identifier": "DEMO-EQUIV-01",
+      "lower_point": [
+        -1210.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        -1210.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-02",
+      "lower_point": [
+        -990.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        -990.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-03",
+      "lower_point": [
+        -770.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        -770.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-04",
+      "lower_point": [
+        -550.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        -550.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-05",
+      "lower_point": [
+        -330.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        -330.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-06",
+      "lower_point": [
+        -110.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        -110.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-07",
+      "lower_point": [
+        110.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        110.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-08",
+      "lower_point": [
+        330.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        330.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-09",
+      "lower_point": [
+        550.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        550.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-10",
+      "lower_point": [
+        770.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        770.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-11",
+      "lower_point": [
+        990.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        990.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    },
+    {
+      "identifier": "DEMO-EQUIV-12",
+      "lower_point": [
+        1210.0,
+        0,
+        -900.0
+      ],
+      "upper_point": [
+        1210.0,
+        0,
+        900.0
+      ],
+      "intensity": 863333333333333.4,
+      "initial_reading_date": "2026-01-01"
+    }
+  ],
+  "radionuclides": {
+    "Co-60": {
+      "name": "Cobalto-60",
+      "half_life": 1925.23,
+      "emissions": [
+        {
+          "value": 1.173,
+          "probability": 1.0,
+          "type": "gamma"
+        },
+        {
+          "value": 1.332,
+          "probability": 1.0,
+          "type": "gamma"
+        }
+      ]
+    },
+    "Cs-137": {
+      "name": "Cesio-137",
+      "half_life": 10990,
+      "emissions": [
+        {
+          "value": 0.662,
+          "probability": 0.85,
+          "type": "gamma"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "purpose": "teaching-reconstruction",
+    "notice": "12 synthetic equivalent cylinders, NOT the commercial source inventory. Total historical reference activity adopted as a teaching input; no assertion of actual 2026 activity."
+  }
+}

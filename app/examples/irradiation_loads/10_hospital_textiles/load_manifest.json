@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "title": "Textiles hospitalarios",
+  "purpose": "Paquetes de algodón y poliéster",
+  "coordinate_units": "mm",
+  "nominal_footprint_mm": [
+    1200,
+    1500
+  ],
+  "analysis_step": "load.step",
+  "presentation_step": "presentation.step",
+  "deterministic_surface": "world_load.stl",
+  "deterministic_surface_representation": "component-surfaces",
+  "materials_file": "materials.json",
+  "analysis_component_counts": {
+    "air": 1,
+    "wood": 17,
+    "polyethylene": 16,
+    "cotton": 8,
+    "polyester": 8
+  },
+  "presentation_component_counts": {
+    "air": 1,
+    "wood": 17,
+    "polyethylene": 32,
+    "cotton": 16,
+    "polyester": 16
+  },
+  "geometry_validation": {
+    "analysis_positive_volume_intersections": 0,
+    "presentation_positive_volume_intersections": 0
+  },
+  "operator_sequence": [
+    "Seleccionar load.step como geometría de cálculo",
+    "Importar materials.json y verificar nombres y densidades",
+    "Seleccionar world_load.stl para el método determinista",
+    "Usar presentation.step únicamente para presentación visual"
+  ],
+  "material_values_status": "Valores iniciales de ingeniería; deben validarse contra el lote real antes de uso dosimétrico."
+}

@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Si utiliza SIM Gamma en un trabajo técnico o científico, cite el software y la versión empleada."
+title: "SIM Gamma"
+type: software
+version: 0.2.0
+date-released: 2026-09-20
+abstract: "Aplicación para planificación determinista y validación Monte Carlo de irradiación gamma."
+license: MIT
+authors:
+  - name: "SIM Gamma project contributors"

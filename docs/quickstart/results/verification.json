@@ -1,0 +1,116 @@
+{
+  "example": "Original synthetic 54-body medical-fluid kit; reconstructed SVST route",
+  "study_run_id": "f0fcb146a60e4001b08f22f3e7bf1012",
+  "positions": 68,
+  "histories_per_position": 10000000,
+  "histories_total": 680000000,
+  "cell_size_cm": 2.0,
+  "dimensions_mm": [
+    480,
+    480,
+    900
+  ],
+  "date": "2026-01-01",
+  "occupancy": "isolated",
+  "variance_method": "source_mixture",
+  "directed_fraction": 0.8,
+  "elapsed_seconds": 1372.0563376359933,
+  "transport_seconds_sum": 990.843942425985,
+  "threads": 12,
+  "unique_seeds": 68,
+  "mesh_cells": 25920,
+  "accumulated_statistics": {
+    "maximum": 0.037041085454338644,
+    "p90": 0.030697271976182813,
+    "p95": 0.03163761565535891,
+    "p98": 0.03270484000442378,
+    "minimum_rate_kgy_h": 43.455386847257614,
+    "mean_rate_kgy_h": 75.8927659550996,
+    "maximum_rate_kgy_h": 102.07490584254265,
+    "active_cells": 2252
+  },
+  "materials": {
+    "pc": {
+      "dominant_voxels": 64,
+      "mean_rate_sum_kgy_h": 57.37833223945927,
+      "maximum_relative_error": 0.034217510369444856
+    },
+    "pp": {
+      "dominant_voxels": 268,
+      "mean_rate_sum_kgy_h": 80.14325863837418,
+      "maximum_relative_error": 0.037041085454338644
+    },
+    "silicone": {
+      "dominant_voxels": 0
+    },
+    "steel": {
+      "dominant_voxels": 0
+    },
+    "water": {
+      "dominant_voxels": 1920,
+      "mean_rate_sum_kgy_h": 75.91661580858053,
+      "maximum_relative_error": 0.03390857834832861
+    }
+  },
+  "pilot_4_positions": {
+    "histories_per_position": 1000000,
+    "elapsed_seconds": 55.59845896299521,
+    "maximum": 0.7049187379040802,
+    "p90": 0.40503278128531384,
+    "p95": 0.44596977700377255,
+    "p98": 0.5061172261921212,
+    "minimum_rate_kgy_h": 0.3516316208988428,
+    "mean_rate_kgy_h": 6.215330817013193,
+    "maximum_rate_kgy_h": 19.03971815109253,
+    "active_cells": 2252
+  },
+  "same_4_positions_high_statistics": {
+    "histories_per_position": 10000000,
+    "maximum": 0.17365036728602373,
+    "p90": 0.12366872128399306,
+    "p95": 0.1330915725243492,
+    "p98": 0.14100740603275466,
+    "minimum_rate_kgy_h": 2.1566304564476013,
+    "mean_rate_kgy_h": 6.14777781938072,
+    "maximum_rate_kgy_h": 13.414163947105408,
+    "active_cells": 2252
+  },
+  "forward_204_minutes": {
+    "mean_dose_kgy": 3.79463829775498,
+    "minimum_dose_kgy": 2.172769342362881,
+    "maximum_dose_kgy": 5.103745292127133
+  },
+  "inverse_mean_total_minutes": 204.0000915128022,
+  "target_minimum_2_5_kgy": {
+    "minutes_per_position": 3.4518160090770476,
+    "total_minutes": 234.72348861723924,
+    "mean_dose_kgy": 4.366131074949172
+  },
+  "estimated_histories_for_2_percent_per_position": 35000000,
+  "checks": {
+    "saved_sum_matches_independent_voxel_sum": true,
+    "saved_sigma_matches_independent_quadrature": true,
+    "inverse_round_trip": true,
+    "target_minimum_time": true
+  },
+  "limitations": [
+    "2% maximum target NOT met in this run",
+    "2 cm mesh does not resolve separate dominant voxels in silicone and steel",
+    "OpenMC TTB does not explicitly track electron paths",
+    "Commercial coordinates/source inventory/turns are didactic assumptions",
+    "No experimental operational validation"
+  ],
+  "air_comparison": {
+    "positions": 68,
+    "histories_per_position": 500000,
+    "cell_size_cm": 2.0,
+    "elapsed_seconds": 380.1460801830108,
+    "deterministic_rate_sum_kgy_h": 87.41390075680835,
+    "monte_carlo_rate_sum_kgy_h": 87.69512956875757,
+    "sum_difference_percent": 0.321720927123037,
+    "maximum_absolute_position_mean_difference_percent": 1.9734201780617466,
+    "quantity": "Alanine response in dry air, not absorbed dose to air",
+    "run_id": "ba3a78487571478cbc97d23e45fe5fdd",
+    "same_run_resumed_after_pause": true
+  }
+}

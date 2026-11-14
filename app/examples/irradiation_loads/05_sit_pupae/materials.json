@@ -1,0 +1,44 @@
+{
+  "materials": [
+    {
+      "name": "air",
+      "elements": {
+        "C": 0.000124,
+        "N": 0.755267,
+        "O": 0.231781,
+        "Ar": 0.012827
+      },
+      "density": 0.00120479,
+      "fraction_type": "weight"
+    },
+    {
+      "name": "polypropylene",
+      "elements": {
+        "H": 0.167714,
+        "C": 0.832286
+      },
+      "density": 0.9,
+      "fraction_type": "weight"
+    },
+    {
+      "name": "pupae",
+      "elements": {
+        "H": 0.102,
+        "C": 0.3,
+        "N": 0.08,
+        "O": 0.503,
+        "S": 0.015
+      },
+      "density": 0.78,
+      "fraction_type": "weight"
+    },
+    {
+      "name": "aluminum",
+      "elements": {
+        "Al": 1.0
+      },
+      "density": 2.7,
+      "fraction_type": "weight"
+    }
+  ]
+}

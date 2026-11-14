@@ -1,0 +1,51 @@
+name: Validación
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+
+  python-contracts:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: conda-incubator/setup-miniconda@v4
+        with:
+          miniforge-version: latest
+          activate-environment: sim_gamma_mobile_platform
+          environment-file: environment.yml
+          use-mamba: true
+      - run: python -m pip install -e .
+      - run: python -m unittest discover -s apps/api/tests -v
+      - run: python -m unittest discover -s phits_extension/tests -v
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: bash -n sim-gamma packaging/build_release.sh
+      - run: chmod +x sim-gamma packaging/build_release.sh
+      - run: ./packaging/build_release.sh
+      - run: test -x distribution/SIM-Gamma/sim-gamma
+      - run: test -f distribution/SIM-Gamma/docs/pdf/manual_sim_gamma.pdf
+      - run: distribution/SIM-Gamma/packaging/tests/test_installer.sh

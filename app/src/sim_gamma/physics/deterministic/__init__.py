@@ -1,0 +1,1 @@
+"""Optimización y cálculo determinista."""

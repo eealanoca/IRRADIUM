@@ -1,0 +1,1 @@
+"""Contratos para simuladores intercambiables."""

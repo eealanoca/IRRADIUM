@@ -1,0 +1,13 @@
+runtime/
+nuclear-data/
+.local/
+workspace/
+distribution/
+installation-manifest.json
+app/installation-manifest.json
+/irradium-config.json
+/IRRADIUM.desktop
+/Desinstalar_IRRADIUM.desktop
+/DATOS_CONSERVADOS.txt
+__pycache__/
+/visualizaciones/**/*.mp4

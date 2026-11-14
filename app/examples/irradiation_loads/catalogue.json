@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-20T09:54:37.301207+00:00",
+  "examples": [
+    {
+      "slug": "01_food_pallet",
+      "title": "Pallet de alimentos frescos",
+      "purpose": "Frutas empacadas para irradiación fitosanitaria",
+      "analysis_components": 76,
+      "presentation_components": 422,
+      "materials": [
+        "air",
+        "wood",
+        "cardboard",
+        "fruit",
+        "polyethylene"
+      ]
+    },
+    {
+      "slug": "02_medical_supplies",
+      "title": "Insumos médicos",
+      "purpose": "Cajas con bolsas de solución y dispositivos poliméricos",
+      "analysis_components": 58,
+      "presentation_components": 94,
+      "materials": [
+        "air",
+        "wood",
+        "cardboard",
+        "saline",
+        "polypropylene",
+        "steel"
+      ]
+    },
+    {
+      "slug": "03_gemstones",
+      "title": "Piedras preciosas",
+      "purpose": "Bandejas heterogéneas para modificación de color",
+      "analysis_components": 54,
+      "presentation_components": 90,
+      "materials": [
+        "air",
+        "wood",
+        "polyethylene",
+        "quartz",
+        "corundum",
+        "topaz"
+      ]
+    },
+    {
+      "slug": "04_plant_grafts",
+      "title": "Injertos vegetales",
+      "purpose": "Recipientes de cultivo con medio e injertos",
+      "analysis_components": 113,
+      "presentation_components": 225,
+      "materials": [
+        "air",
+        "polypropylene",
+        "agar",
+        "plant",
+        "aluminum"
+      ]
+    },
+    {
+      "slug": "05_sit_pupae",
+      "title": "Pupas para técnica del insecto estéril",
+      "purpose": "Contenedor modular con bandejas y pupas",
+      "analysis_components": 101,
+      "presentation_components": 201,
+      "materials": [
+        "air",
+        "polypropylene",
+        "pupae",
+        "aluminum"
+      ]
+    },
+    {
+      "slug": "06_spices_coffee",
+      "title": "Especias, cacao y café",
+      "purpose": "Sacos de producto seco a granel",
+      "analysis_components": 48,
+      "presentation_components": 78,
+      "materials": [
+        "air",
+        "wood",
+        "jute",
+        "spice"
+      ]
+    },
+    {
+      "slug": "07_agricultural_seeds",
+      "title": "Semillas agrícolas",
+      "purpose": "Cajas con bolsas de semillas",
+      "analysis_components": 54,
+      "presentation_components": 90,
+      "materials": [
+        "air",
+        "wood",
+        "cardboard",
+        "polyethylene",
+        "seed"
+      ]
+    },
+    {
+      "slug": "08_animal_feed",
+      "title": "Alimento balanceado",
+      "purpose": "Cajas revestidas con alimento seco",
+      "analysis_components": 54,
+      "presentation_components": 90,
+      "materials": [
+        "air",
+        "wood",
+        "cardboard",
+        "polyethylene",
+        "feed"
+      ]
+    },
+    {
+      "slug": "09_archives_wood",
+      "title": "Archivos y productos de madera",
+      "purpose": "Documentos embalados sobre pallet",
+      "analysis_components": 54,
+      "presentation_components": 90,
+      "materials": [
+        "air",
+        "wood",
+        "cardboard",
+        "cellulose"
+      ]
+    },
+    {
+      "slug": "10_hospital_textiles",
+      "title": "Textiles hospitalarios",
+      "purpose": "Paquetes de algodón y poliéster",
+      "analysis_components": 50,
+      "presentation_components": 82,
+      "materials": [
+        "air",
+        "wood",
+        "polyethylene",
+        "cotton",
+        "polyester"
+      ]
+    }
+  ]
+}

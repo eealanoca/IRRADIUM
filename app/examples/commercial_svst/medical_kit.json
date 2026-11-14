@@ -1,0 +1,17 @@
+{
+  "name": "Synthetic medical-fluid kit",
+  "bodies": 54,
+  "dimensions_mm": [
+    480,
+    480,
+    900
+  ],
+  "materials": [
+    "pp",
+    "pc",
+    "silicone",
+    "steel",
+    "water"
+  ],
+  "purpose": "Original teaching geometry, not a real device design. Material densities and chemical formulas are idealized declared inputs. Thin parts may require finer meshes for resolved material metrics."
+}

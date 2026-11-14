@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+export IRRADIUM_DESKTOP_DATA_HOME="${IRRADIUM_DESKTOP_DATA_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}}"
+HOST_DATA_HOME="$IRRADIUM_DESKTOP_DATA_HOME"
+if [[ "${1:-}" == "uninstall" ]]; then
+  shift
+  exec /bin/bash "$ROOT/Desinstalar_IRRADIUM.sh" "$@"
+fi
+if [[ ! -x "$ROOT/runtime/main/bin/python" ]]; then
+  [[ "${1:-}" == "install" ]] || { printf 'Ejecuta %s install para instalar las dependencias dentro de esta carpeta.\n' "$0" >&2; exit 1; }
+  exec /bin/bash "$ROOT/scripts/install_runtime.sh"
+fi
+if [[ "${1:-}" == "menu-install" ]]; then
+  exec "$ROOT/runtime/main/bin/python" -I -B "$ROOT/scripts/menu_entry.py" --data-home "$HOST_DATA_HOME"
+fi
+export IRRADIUM_ROOT="$ROOT"
+export IRRADIUM_WORKSPACE_ROOT="$ROOT/workspace"
+export PYTHONPATH="$ROOT/app/src:$ROOT/app"
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export CONDA_REGISTER_ENVS=false
+export MAMBA_ROOT_PREFIX="$ROOT/runtime/mamba"
+export CONDA_ENVS_PATH="$ROOT/runtime"
+export CONDA_PKGS_DIRS="$ROOT/runtime/mamba/pkgs"
+export XDG_CACHE_HOME="$ROOT/.local/cache" XDG_CONFIG_HOME="$ROOT/.local/config"
+export XDG_DATA_HOME="$ROOT/.local/share" XDG_STATE_HOME="$ROOT/.local/state"
+export TMPDIR="$ROOT/.local/tmp"
+export PATH="/usr/local/bin:/usr/bin:/bin"
+unset PYTHONHOME VIRTUAL_ENV CONDA_PREFIX CONDA_DEFAULT_ENV CONDA_PROMPT_MODIFIER CONDA_SHLVL CONDA_EXE CONDA_PYTHON_EXE
+unset DBUS_SESSION_BUS_ADDRESS LD_PRELOAD
+mkdir -p "$TMPDIR" "$XDG_CACHE_HOME" "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$ROOT/.local/empty"
+GUARD="$ROOT/runtime/guard/bwrap"
+[[ -x "$GUARD" ]] || { printf 'Falta la protección incluida en runtime/guard.\n' >&2; exit 1; }
+MASK=()
+for ORIGINAL in /home/efr_al/anaconda3 /home/efr_al/miniconda3 /home/efr_al/Documents/personal_projects/simulator_mobile_platform /home/efr_al/Documents/personal_projects/simulator_irr_gamma_iv; do
+  [[ ! -d "$ORIGINAL" ]] || MASK+=(--ro-bind "$ROOT/.local/empty" "$ORIGINAL")
+done
+export LD_LIBRARY_PATH="$ROOT/runtime/guard/lib"
+"$GUARD" --ro-bind / / --bind "$ROOT" "$ROOT" "${MASK[@]}" \
+  --dev /dev --proc /proc --tmpfs /tmp --chdir "$ROOT/app" \
+  -- "$ROOT/runtime/main/bin/python" "$ROOT/scripts/control.py" "$@"
+
+case "${1:-start}" in
+  install|start|restart)
+    "$ROOT/runtime/main/bin/python" -I -B "$ROOT/scripts/menu_entry.py" --data-home "$HOST_DATA_HOME" || true
+    ;;
+esac
+
+case "${1:-start}" in
+  start|restart)
+    if [[ "${IRRADIUM_OPEN_BROWSER:-1}" == "1" && -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ]] && command -v xdg-open >/dev/null; then
+      xdg-open http://127.0.0.1:3001/ >/dev/null 2>&1 || true
+    fi
+    ;;
+esac

@@ -1,0 +1,53 @@
+{
+  "sources": [
+    {
+      "identifier": "DEMO-SRC-001",
+      "lower_point": [-450.0, 0.0, -450.0],
+      "upper_point": [-450.0, 0.0, -50.0],
+      "intensity": 37000000000000.0,
+      "initial_reading_date": "2025-01-01"
+    },
+    {
+      "identifier": "DEMO-SRC-002",
+      "lower_point": [-150.0, 0.0, 50.0],
+      "upper_point": [-150.0, 0.0, 450.0],
+      "intensity": 37000000000000.0,
+      "initial_reading_date": "2025-01-01"
+    },
+    {
+      "identifier": "DEMO-SRC-003",
+      "lower_point": [150.0, 0.0, -450.0],
+      "upper_point": [150.0, 0.0, -50.0],
+      "intensity": 37000000000000.0,
+      "initial_reading_date": "2025-01-01"
+    },
+    {
+      "identifier": "DEMO-SRC-004",
+      "lower_point": [450.0, 0.0, 50.0],
+      "upper_point": [450.0, 0.0, 450.0],
+      "intensity": 37000000000000.0,
+      "initial_reading_date": "2025-01-01"
+    }
+  ],
+  "radionuclides": {
+    "Co-60": {
+      "name": "Cobalto-60",
+      "half_life": 1925.23,
+      "emissions": [
+        {"value": 1.173, "probability": 1.0, "type": "gamma"},
+        {"value": 1.332, "probability": 1.0, "type": "gamma"}
+      ]
+    },
+    "Cs-137": {
+      "name": "Cesio-137",
+      "half_life": 10990,
+      "emissions": [
+        {"value": 0.662, "probability": 0.85, "type": "gamma"}
+      ]
+    }
+  },
+  "metadata": {
+    "purpose": "demonstration",
+    "notice": "Synthetic values. Replace them with an authorized facility inventory before operational use."
+  }
+}

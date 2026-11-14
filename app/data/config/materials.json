@@ -1,0 +1,125 @@
+{
+  "materials": [
+    {
+      "name": "air",
+      "transport_medium": "air",
+      "dosimeter_medium": "alanine",
+      "coefficient_quantity": "mass_energy_absorption",
+      "coefficient_units": "cm2/g",
+      "coefficient_source": "NIST X-Ray Mass Attenuation Coefficients, Table 4: Alanine",
+      "elements": {
+        "C": 0.000124,
+        "N": 0.755267,
+        "O": 0.231781,
+        "Ar": 0.012827
+      },
+      "density": 0.00120479,
+      "fraction_type": "weight",
+      "mu_en_over_rho": {
+        "0.662": 0.0316,
+        "1.173": 0.02921,
+        "1.332": 0.02837
+      }
+    },
+    {
+      "name": "airload",
+      "transport_medium": "air",
+      "dosimeter_medium": "alanine",
+      "coefficient_quantity": "mass_energy_absorption",
+      "coefficient_units": "cm2/g",
+      "coefficient_source": "NIST X-Ray Mass Attenuation Coefficients, Table 4: Alanine",
+      "elements": {
+        "C": 0.000124,
+        "N": 0.755267,
+        "O": 0.231781,
+        "Ar": 0.012827
+      },
+      "density": 0.00120479,
+      "fraction_type": "weight",
+      "mu_en_over_rho": {
+        "0.662": 0.0316,
+        "1.173": 0.02921,
+        "1.332": 0.02837
+      }
+    },
+    {
+      "name": "water",
+      "elements": {
+        "H": 2,
+        "O": 1
+      },
+      "density": 1.0,
+      "fraction_type": "atomic"
+    },
+    {
+      "name": "pp",
+      "density": 0.9,
+      "elements": {
+        "C": 3,
+        "H": 6
+      },
+      "fraction_type": "atomic"
+    },
+    {
+      "name": "pc",
+      "density": 1.2,
+      "elements": {
+        "C": 16,
+        "H": 14,
+        "O": 3
+      },
+      "fraction_type": "atomic"
+    },
+    {
+      "name": "silicone",
+      "density": 1.1,
+      "elements": {
+        "Si": 1,
+        "O": 1,
+        "C": 2,
+        "H": 6
+      },
+      "fraction_type": "atomic"
+    },
+    {
+      "name": "steel",
+      "density": 7.9,
+      "elements": {
+        "Fe": 0.7,
+        "Cr": 0.19,
+        "Ni": 0.1,
+        "Mn": 0.01
+      },
+      "fraction_type": "weight"
+    },
+    {
+      "name": "eps",
+      "density": 0.03,
+      "elements": {
+        "C": 8,
+        "H": 8
+      },
+      "fraction_type": "atomic"
+    },
+    {
+      "name": "citrus",
+      "density": 0.95,
+      "elements": {
+        "H": 0.108,
+        "O": 0.86,
+        "C": 0.032
+      },
+      "fraction_type": "weight"
+    },
+    {
+      "name": "carton",
+      "density": 0.6,
+      "elements": {
+        "C": 6,
+        "H": 10,
+        "O": 5
+      },
+      "fraction_type": "atomic"
+    }
+  ]
+}

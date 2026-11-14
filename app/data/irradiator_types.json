@@ -1,0 +1,6 @@
+[
+  {"id":"I","name_en":"Self-Contained Dry Source Storage Irradiator","name_es":"Irradiador Autoblindado con Almacenamiento Seco de Fuentes","source_storage":"dry","geometry":"self-contained","enabled":false,"workflow":null},
+  {"id":"II","name_en":"Panoramic Dry Source Storage Irradiator","name_es":"Irradiador Panorámico con Almacenamiento Seco de Fuentes","source_storage":"dry","geometry":"panoramic","enabled":false,"workflow":null},
+  {"id":"III","name_en":"Self-Contained Wet Source Storage Irradiator / Underwater Irradiator","name_es":"Irradiador Autoblindado con Almacenamiento Húmedo de Fuentes o Irradiador Subacuático","source_storage":"wet","geometry":"self-contained","enabled":false,"workflow":null},
+  {"id":"IV","name_en":"Panoramic Wet Source Storage Irradiator","name_es":"Irradiador Panorámico con Almacenamiento Húmedo de Fuentes","source_storage":"wet","geometry":"panoramic","enabled":true,"workflow":"panoramic_wet","transport":"suspended_litters"}
+]
