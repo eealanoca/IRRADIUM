@@ -32,7 +32,9 @@ mkdir -p "$TMPDIR" "$XDG_CACHE_HOME" "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_S
 GUARD="$ROOT/runtime/guard/bwrap"
 [[ -x "$GUARD" ]] || { printf 'Falta la protección incluida en runtime/guard.\n' >&2; exit 1; }
 MASK=()
-for ORIGINAL in /home/efr_al/anaconda3 /home/efr_al/miniconda3 /home/efr_al/Documents/personal_projects/simulator_mobile_platform /home/efr_al/Documents/personal_projects/simulator_irr_gamma_iv; do
+PROJECTS_DIR="$(dirname "$ROOT")"
+for ORIGINAL in "$HOME/anaconda3" "$HOME/miniconda3" "$PROJECTS_DIR/simulator_mobile_platform" "$PROJECTS_DIR/simulator_irr_gamma_iv"; do
+  [[ "$ORIGINAL" != "$ROOT" ]] || continue
   [[ ! -d "$ORIGINAL" ]] || MASK+=(--ro-bind "$ROOT/.local/empty" "$ORIGINAL")
 done
 export LD_LIBRARY_PATH="$ROOT/runtime/guard/lib"
