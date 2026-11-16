@@ -12,6 +12,8 @@ from pathlib import Path
 from typing import Any, Dict
 from uuid import uuid4
 
+from sim_gamma.domain.study_recovery import write_checkpoint_json
+
 from .case_store import CaseStore
 from .deterministic_jobs import DeterministicJobs
 
@@ -110,8 +112,8 @@ class MonteCarloJobs:
             if self._systemd_user_available():
                 systemd_unit = self._systemd_unit_name(run_id)
                 request["systemd_unit"] = systemd_unit
-            DeterministicJobs._write_json(request_path, request)
-            DeterministicJobs._write_json(
+            write_checkpoint_json(request_path, request, through=case_root.parent)
+            write_checkpoint_json(
                 status_path,
                 {
                     "case_id": case_id,
@@ -158,7 +160,7 @@ class MonteCarloJobs:
                 # sin una sesión systemd de usuario utilizable.
                 systemd_unit = None
                 request.pop("systemd_unit", None)
-                DeterministicJobs._write_json(request_path, request)
+                write_checkpoint_json(request_path, request)
         if not systemd_unit:
             with log_path.open("ab") as log_stream:
                 process = subprocess.Popen(
@@ -370,18 +372,18 @@ class MonteCarloJobs:
             else:
                 request.pop("systemd_unit", None)
             (root / "pause.json").unlink(missing_ok=True)
-            DeterministicJobs._write_json(root / "request.json", request)
+            write_checkpoint_json(root / "request.json", request)
             count = len(result.get("positions", []))
             queued = {**status, "state": "queued", "stage": "resuming-study", "error": None,
                       "progress": min(99, count * 100 // max(1, result.get("requested_position_count", 1))),
                       "can_resume": False, "resumed_at": datetime.now(timezone.utc).isoformat()}
             queued.pop("guard_finalized", None)
-            DeterministicJobs._write_json(root / "status.json", queued)
+            write_checkpoint_json(root / "status.json", queued)
             try:
                 self._launch_request(case_id, request)
             except Exception:
-                DeterministicJobs._write_json(root / "request.json", original_request)
-                DeterministicJobs._write_json(root / "status.json", status)
+                write_checkpoint_json(root / "request.json", original_request)
+                write_checkpoint_json(root / "status.json", status)
                 raise
         return self.status(case_id)
 
@@ -391,16 +393,25 @@ class MonteCarloJobs:
         self._reap_children()
         root = self.case_store.root(case_id) / "monte_carlo"
         status_path = root / "status.json"
-        if not status_path.is_file():
+        request_path = root / "request.json"
+        request = DeterministicJobs._read_json(request_path) if request_path.is_file() else {}
+        try:
+            status = DeterministicJobs._read_json(status_path)
+        except (FileNotFoundError, json.JSONDecodeError, UnicodeDecodeError):
+            status = {}
+        if request.get("route_study") and request.get("run_id") != status.get("run_id"):
+            status = {
+                "case_id": case_id, "run_id": request["run_id"], "state": "queued",
+                "stage": "recovering-study-status", "progress": 0,
+                "execution_enabled": self.execution_enabled,
+            }
+        if not status:
             return {
                 "case_id": case_id,
                 "state": "not-started",
                 "progress": 0,
                 "execution_enabled": self.execution_enabled,
             }
-        status = DeterministicJobs._read_json(status_path)
-        request_path = root / 'request.json'
-        request = DeterministicJobs._read_json(request_path) if request_path.is_file() else {}
         if request.get('run_id') == status.get('run_id') and request.get('route_study'):
             status['route_study'] = request['route_study']
         if status.get("state") not in self.ACTIVE_STATES:
@@ -412,7 +423,10 @@ class MonteCarloJobs:
             if result.get("positions") and not study.get("adaptive_statistics"):
                 incomplete |= any(point.get("simulated_particles", 0) < result.get("requested_particles_per_position", 0) for point in result["positions"])
             status["can_resume"] = bool(self.execution_enabled and study and incomplete and request.get("run_id") == status.get("run_id") and status.get("state") in RECOVERABLE_STATES)
-            status["saved_position_count"] = len(result.get("positions", []))
+            saved_count = len(result.get("positions", []))
+            status["saved_position_count"] = saved_count
+            if status.get("state") == "interrupted" and result:
+                status["progress"] = min(99, saved_count * 100 // max(1, result.get("requested_position_count", 1)))
             return status
         if DeterministicJobs._matching_processes(
             root / "request.json", self.WORKER_MODULE
@@ -431,7 +445,7 @@ class MonteCarloJobs:
             "error": None if final_state == "cancelled" else "El proceso Monte Carlo ya no está activo.",
             "interrupted_at": datetime.now(timezone.utc).isoformat(),
         }
-        DeterministicJobs._write_json(status_path, updated)
+        write_checkpoint_json(status_path, updated)
         DeterministicJobs._remove_worker_metadata(root)
         return self.status(case_id)
 

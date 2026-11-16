@@ -43,6 +43,8 @@ A new installation starts with the example. Existing cases and source inventorie
 5. Inspect 3D maps, material masks, slices, isodoses, DUR and relative errors.
 6. Integrate a selected interval. Dose is `sum(rate_i × time_i)` in consistent units; solve for dwell time or total time using a chosen target-dose metric. Rotation alignment is applied to superposition, while individual views retain real irradiator axes.
 
+After an unexpected shutdown, reopen the case in **Results** and select **Resume**. IRRADIUM saves each published position and its dose map in the case workspace. It reuses the saved maps and recalculates an interrupted position if needed. Keep the case workspace on persistent storage.
+
 Fast OpenMC flux conversion is recommended for air-reference comparisons. Intensive OpenMC and PHITS energy deposition account for material transport. Neighboring-load attenuation is an explicit occupancy option. A history budget does not guarantee a relative-error target, and Monte Carlo statistical uncertainty is not total model uncertainty.
 
 ## Files and uninstall

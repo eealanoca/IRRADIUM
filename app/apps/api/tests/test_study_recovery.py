@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 from sim_gamma.application.services.monte_carlo_jobs import MonteCarloJobs
-from sim_gamma.domain.study_recovery import input_fingerprints, position_output_name, recover_study
+from sim_gamma.domain.study_recovery import input_fingerprints, position_output_name, publish_route_checkpoint, recover_study
 from sim_gamma.workers.monte_carlo_cli import run_route, write_json
 from sim_gamma.workers.study_guard import run_guarded, study_slot
 
@@ -108,6 +108,42 @@ class StudyRecoveryTests(unittest.TestCase):
         (self.root / saved['positions'][0]['summary']).with_name('dose_distribution.vti').unlink()
         with self.assertRaisesRegex(ValueError, 'Falta'):
             recover_study(self.root, self.request)
+
+    def test_restart_uses_saved_positions_when_the_status_and_latest_mirror_are_lost(self):
+        self.paused_study()
+        status_path = self.root / 'monte_carlo/status.json'
+        latest = self.root / 'results/route_rates.json'
+        status_path.write_text('{')
+        latest.write_text('{')
+        jobs = self.jobs()
+        with patch.object(jobs, '_systemd_user_available', return_value=False), \
+             patch.object(jobs, '_systemd_unit_active', return_value=False), \
+             patch('sim_gamma.application.services.deterministic_jobs.DeterministicJobs._matching_processes', return_value=[]), \
+             patch('sim_gamma.application.services.monte_carlo_jobs.shutil.disk_usage', return_value=SimpleNamespace(free=1024**3)), \
+             patch.object(jobs, '_launch_request'):
+            status = jobs.status('test')
+            self.assertEqual(status['state'], 'interrupted')
+            self.assertEqual(status['progress'], 33)
+            self.assertEqual(status['saved_position_count'], 1)
+            self.assertTrue(status['can_resume'])
+            jobs.resume('test', 'same-study')
+        self.request = json.loads(self.request_path.read_text())
+        self.pause_after = -1
+        self.run_fixture()
+        self.assertEqual(self.calls, [0, 1, 2])
+        self.assertTrue(json.loads(latest.read_text())['complete'])
+
+    def test_missing_or_empty_new_map_leaves_the_previous_checkpoint_intact(self):
+        result = self.paused_study()
+        archive = self.root / 'results/studies/same-study.json'
+        original = archive.read_bytes()
+        position_dir = self.root / 'monte_carlo/positions/same-study/002'
+        position_dir.mkdir()
+        write_json(position_dir / 'result.json', {'run_id': 'same-study'})
+        (position_dir / 'dose_distribution.vti').touch()
+        with self.assertRaisesRegex(OSError, 'vacío'):
+            publish_route_checkpoint(self.root, {**result, 'complete': True}, position_dir=position_dir)
+        self.assertEqual(archive.read_bytes(), original)
 
     def test_service_continuation_preserves_request_budget_and_rejects_double_start(self):
         self.paused_study()

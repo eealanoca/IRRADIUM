@@ -1,10 +1,65 @@
 """Durable continuation of published route positions, never of an incomplete map."""
 import hashlib
 import json
+import os
 from pathlib import Path
+import tempfile
 
 INPUT_FILES = ("load.step", "materials.json", "simulation_parameters.json", "sources.json", "route.json")
 RECOVERABLE_STATES = {"paused", "disk-limited", "memory-limited", "time-limited", "interrupted", "failed", "cancelled"}
+
+
+def sync_directories(directory: Path, through: Path) -> None:
+    """Persist directory entries from a checkpoint back to its case root."""
+    for parent in (directory, *directory.parents):
+        fd = os.open(parent, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        if parent == through:
+            break
+
+
+def write_checkpoint_json(path: Path, data: dict, *, through: Path | None = None) -> None:
+    """Replace a checkpoint only after the new contents are on disk."""
+    fd, name = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.", suffix=".tmp")
+    temporary = Path(name)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as stream:
+            json.dump(data, stream, indent=2, ensure_ascii=False)
+            stream.flush()
+            os.fsync(stream.fileno())
+        temporary.replace(path)
+        sync_directories(path.parent, through or path.parent)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def _sync_checkpoint_file(path: Path, root: Path) -> None:
+    with path.open("rb") as stream:
+        if not os.fstat(stream.fileno()).st_size:
+            raise OSError(f"El archivo de recuperación está vacío: {path.name}")
+        os.fsync(stream.fileno())
+    sync_directories(path.parent, root)
+
+
+def publish_route_checkpoint(root: Path, result: dict, *, position_dir: Path | None = None,
+                             restart_statepoint: Path | None = None) -> None:
+    """Commit artifacts before the run archive and its latest-study mirror."""
+    if position_dir is not None:
+        for name in ("result.json", "dose_distribution.vti"):
+            _sync_checkpoint_file(position_dir / name, root)
+    if restart_statepoint is not None:
+        _sync_checkpoint_file(restart_statepoint, root)
+        _sync_checkpoint_file(restart_statepoint.with_name("model.xml"), root)
+    interval_map = (result.get("interval_precision") or {}).get("map")
+    if interval_map:
+        _sync_checkpoint_file(root / interval_map, root)
+    results = root / "results"
+    archive = results / "studies" / f"{result['run_id']}.json"
+    write_checkpoint_json(archive, result, through=root)
+    write_checkpoint_json(results / "route_rates.json", result)
 
 
 def input_fingerprints(root: Path) -> dict:

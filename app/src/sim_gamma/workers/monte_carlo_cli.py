@@ -1392,7 +1392,9 @@ def run_position(request_path: Path, *, route_context) -> None:
 def run_route(request_path: Path, request: dict, route_path: Path) -> None:
     started = time.perf_counter()
     from sim_gamma.domain.route_study import precision_status, selected_position_indices, study_precision
-    from sim_gamma.domain.study_recovery import pause_requested, position_output_name, recover_study
+    from sim_gamma.domain.study_recovery import (
+        pause_requested, position_output_name, publish_route_checkpoint, recover_study, write_checkpoint_json,
+    )
 
     route = json.loads(route_path.read_text(encoding="utf-8"))
     study = request.get("route_study")
@@ -1430,11 +1432,14 @@ def run_route(request_path: Path, request: dict, route_path: Path) -> None:
     archive = results_root / "studies"
     archive.mkdir(parents=True, exist_ok=True)
     latest = results_root / "route_rates.json"
-    if latest.is_file():
+    try:
         previous = json.loads(latest.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError, UnicodeDecodeError):
+        previous = None
+    if previous:
         previous_path = archive / f"{previous['run_id']}.json"
         if not previous_path.is_file():
-            write_json(previous_path, previous)
+            write_checkpoint_json(previous_path, previous, through=root)
     from sim_gamma.simulators.openmc.geometry_contract import TRANSPORT_GEOMETRY_REVISION
     result = {
         "transport_geometry_revision": TRANSPORT_GEOMETRY_REVISION if route.get("dose_tally", "heating") != "phits" else None,
@@ -1528,6 +1533,16 @@ def run_route(request_path: Path, request: dict, route_path: Path) -> None:
                 "complete": len(rates) == len(positions) and not accumulated_target,
                 "precision": study_precision(rates, len(rates) == len(positions)),
             })
+            if summary.get("transport_time_limited"):
+                result["stop_reason"] = "time-limited"
+            restart_statepoint = None
+            if accumulated_target and summary.get("statepoint") and route.get("variance_reduction") in {
+                "source_box", "source_mixture", "analog", "source_scene",
+            }:
+                restart_statepoint = root / summary["statepoint"]
+            publish_route_checkpoint(root, result, position_dir=output_root, restart_statepoint=restart_statepoint)
+            if result.get("stop_reason"):
+                break
             if accumulated_target and refinement:
                 # A conservative plan need not be spent in full. Stop as soon
                 # as the actual combined map meets the requested maximum.
@@ -1535,11 +1550,6 @@ def run_route(request_path: Path, request: dict, route_path: Path) -> None:
                 result["interval_precision"] = evaluate_interval(
                     root, rates, combined_path, accumulated_target, refinement + 1,
                 )
-            write_json(archive / f"{request['run_id']}.json", result)
-            write_json(latest, result)
-            if summary.get("transport_time_limited"):
-                result["stop_reason"] = "time-limited"
-                break
             if result.get("interval_precision", {}).get("meets_target"):
                 break
         if paused or result.get("stop_reason") or not accumulated_target:
@@ -1566,8 +1576,7 @@ def run_route(request_path: Path, request: dict, route_path: Path) -> None:
                    "complete": len(rates) == len(positions),
                    "precision": study_precision(rates, len(rates) == len(positions))})
     if rates:
-        write_json(archive / f"{request['run_id']}.json", result)
-        write_json(latest, result)
+        publish_route_checkpoint(root, result)
     if route.get("analysis_method") == "monte_carlo_air" and result["complete"] and not result.get("stop_reason"):
         from sim_gamma.domain.route_map import write_route_dose_map
 

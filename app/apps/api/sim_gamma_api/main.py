@@ -1057,9 +1057,9 @@ def estimate_route_study(case_id: str, payload: RouteStudyRequest):
 def _route_study_paths(root: Path):
     results = root / "results"
     latest = results / "route_rates.json"
-    return ([latest] if latest.is_file() else []) + sorted(
+    return sorted(
         (results / "studies").glob("*.json"), key=lambda path: path.stat().st_mtime, reverse=True
-    )
+    ) + ([latest] if latest.is_file() else [])
 
 
 @app.get("/api/route/cases/{case_id}/studies")
@@ -1067,7 +1067,14 @@ def list_route_studies(case_id: str):
     root = _route_case_root(case_id)
     studies = {}
     for path in _route_study_paths(root):
-        result = json.loads(path.read_text(encoding="utf-8"))
+        try:
+            result = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            if path.name == "route_rates.json":
+                continue
+            raise
+        if result["run_id"] in studies:
+            continue
         positions = result["positions"]
         studies.setdefault(result["run_id"], {
             "run_id": result["run_id"], "activity_date": result["activity_date"],
@@ -1125,7 +1132,12 @@ def get_route_results(case_id: str, run_id: str | None = None):
     if path.is_file() and case_store.get(case_id).get("analysis_method") == AIR_CALIBRATION_METHOD:
         return json.loads(path.read_text(encoding="utf-8"))
     status = monte_carlo_jobs.status(case_id)
-    if status.get("state") not in {"completed", "time-limited", "memory-limited", "disk-limited", "cancelled"} or not path.is_file():
+    if status.get("state") not in {"completed", "paused", "interrupted", "time-limited", "memory-limited", "disk-limited", "cancelled"}:
+        raise HTTPException(status_code=409, detail="Completa el cálculo de tasas primero")
+    archived = path.parent / "studies" / f"{status.get('run_id', '')}.json"
+    if archived.is_file():
+        path = archived
+    if not path.is_file():
         raise HTTPException(status_code=409, detail="Completa el cálculo de tasas primero")
     result = json.loads(path.read_text(encoding="utf-8"))
     if result["run_id"] != status.get("run_id"):

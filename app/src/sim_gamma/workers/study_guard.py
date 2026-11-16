@@ -11,7 +11,7 @@ import sys
 import time
 
 from sim_gamma.domain.route_study import EXTENDED_STUDY_SECONDS, STANDARD_STUDY_SECONDS
-from sim_gamma.domain.study_recovery import pause_requested
+from sim_gamma.domain.study_recovery import pause_requested, publish_route_checkpoint, write_checkpoint_json
 
 
 def available_memory_mb() -> float:
@@ -87,15 +87,15 @@ def run_guarded(request_path: Path) -> int:
         if run_root.resolve().is_relative_to(application):
             with study_slot(application, run_root, request) as acquired:
                 if acquired is False:
-                    from sim_gamma.workers.monte_carlo_cli import write_json, write_status
-                    archive = Path(request["case_root"]) / "results/studies" / f"{request['run_id']}.json"
+                    from sim_gamma.workers.monte_carlo_cli import write_status
+                    root = Path(request["case_root"])
+                    archive = root / "results/studies" / f"{request['run_id']}.json"
                     coverage = 0
                     if archive.is_file():
                         result = json.loads(archive.read_text())
                         result["stop_reason"] = "paused"
                         coverage = min(99, len(result.get("positions", [])) * 100 // max(1, result.get("requested_position_count", 1)))
-                        write_json(archive, result)
-                        write_json(archive.parent.parent / "route_rates.json", result)
+                        publish_route_checkpoint(root, result)
                     write_status(run_root / "status.json", request, "paused", coverage, state="paused")
                     (run_root / "worker.json").unlink(missing_ok=True)
                     return 0
@@ -169,8 +169,7 @@ def _run_guarded(request_path: Path) -> int:
             result = json.loads(archive.read_text())
             result["resources"] = resource
             result["stop_reason"] = reason or ("failed" if code else result.get("stop_reason"))
-            write_json(archive, result)
-            write_json(root / "results" / "route_rates.json", result)
+            publish_route_checkpoint(root, result)
         terminal = reason or ("failed" if code else child_state if child_state in {"completed", "failed", "paused"} else "completed")
         error = status.get("error")
         if reason and not error:
@@ -180,7 +179,7 @@ def _run_guarded(request_path: Path) -> int:
         status.pop("final_state", None)
         (run_root / "worker.json").unlink(missing_ok=True)
         (run_root / "pause.json").unlink(missing_ok=True)
-        write_json(status_path, {
+        write_checkpoint_json(status_path, {
             **status, "case_id": request["case_id"], "run_id": request["run_id"],
             "state": terminal, "stage": terminal,
             "progress": status.get("progress", 0) if terminal == "paused" else 100, "execution_enabled": True,

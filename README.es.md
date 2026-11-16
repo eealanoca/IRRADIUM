@@ -43,6 +43,8 @@ Una instalación nueva prepara el ejemplo; una instalación existente conserva s
 5. Inspecciona mapas 3D, materiales, cortes, isodosis, DUR y errores relativos.
 6. Integra un intervalo: `dosis = suma(tasa_i × tiempo_i)`. Para resolver tiempos, elige conscientemente dosis mínima, media o máxima como objetivo. Los giros se aplican a la superposición; las vistas individuales mantienen los ejes reales.
 
+Después de un apagado inesperado, abre el caso en **Resultados** y selecciona **Continuar**. IRRADIUM guarda cada posición publicada y su mapa de dosis en la carpeta del caso. Reutiliza los mapas guardados y recalcula la posición interrumpida si hace falta. Mantén la carpeta del caso en almacenamiento persistente.
+
 OpenMC rápido por flujo y conversión es recomendable para referencias en aire. OpenMC intensivo y PHITS calculan depósito de energía en materiales. La atenuación por cargas vecinas se configura explícitamente. El número de historias no garantiza un error y la incertidumbre estadística no incluye toda la incertidumbre del modelo.
 
 ## Organización y desinstalación
