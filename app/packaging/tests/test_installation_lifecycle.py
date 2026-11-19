@@ -77,6 +77,53 @@ class InstallationLifecycleTests(unittest.TestCase):
         self.assertIn('Terminal=true', (self.root / 'Desinstalar_IRRADIUM.desktop').read_text())
         self.assertTrue(os.access(self.root / 'IRRADIUM.desktop', os.X_OK))
 
+    def test_browser_uses_desktop_environment_after_isolated_startup(self):
+        shutil.copy2(ROOT / 'irradium', self.root / 'irradium')
+        guard = self.root / 'runtime/guard/bwrap'
+        guard.parent.mkdir(parents=True)
+        guard.write_text('#!/bin/sh\n/usr/bin/env > "$IRRADIUM_ROOT/guard.env"\nexit "${IRRADIUM_TEST_EXIT_CODE:-0}"\n')
+        guard.chmod(0o755)
+        python = self.root / 'runtime/main/bin/python'
+        python.parent.mkdir(parents=True)
+        python.write_text('#!/bin/sh\nexit 0\n')
+        python.chmod(0o755)
+        browser = self.base / 'desktop-bin/xdg-open'
+        browser.parent.mkdir()
+        browser.write_text('#!/bin/sh\n/usr/bin/env > "$IRRADIUM_TEST_BROWSER_LOG"\nprintf "%s\\n" "$@" >> "$IRRADIUM_TEST_BROWSER_LOG"\n')
+        browser.chmod(0o755)
+        browser_log = self.base / 'browser.env'
+        desktop = {
+            'XDG_CONFIG_HOME': str(self.base / 'desktop-config'),
+            'XDG_DATA_HOME': str(self.base / 'desktop-data'),
+            'XDG_CACHE_HOME': str(self.base / 'desktop-cache'),
+            'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/desktop/session-bus',
+            'TMPDIR': str(self.base),
+        }
+        environment = {
+            **os.environ, **desktop, 'PATH': str(browser.parent) + ':/usr/bin:/bin',
+            'DISPLAY': ':0', 'IRRADIUM_OPEN_BROWSER': '1',
+            'IRRADIUM_TEST_BROWSER_LOG': str(browser_log),
+        }
+        for host_settings in (desktop, {}):
+            with self.subTest(desktop_settings=bool(host_settings)):
+                env = {key: value for key, value in environment.items() if key not in desktop}
+                env.update(host_settings)
+                subprocess.run(['/bin/bash', str(self.root / 'irradium'), 'start'], env=env, check=True)
+                browser_values = browser_log.read_text().splitlines()
+                guard_values = (self.root / 'guard.env').read_text().splitlines()
+                self.assertIn(f'XDG_CONFIG_HOME={self.root}/.local/config', guard_values)
+                self.assertNotIn('DBUS_SESSION_BUS_ADDRESS=unix:path=/desktop/session-bus', guard_values)
+                self.assertIn('http://127.0.0.1:3001/', browser_values)
+                for key in desktop:
+                    values = [line for line in browser_values if line.startswith(key + '=')]
+                    self.assertEqual(values, [f'{key}={host_settings[key]}'] if key in host_settings else [])
+        browser_log.unlink()
+        environment['IRRADIUM_TEST_EXIT_CODE'] = '7'
+        failed = subprocess.run(['/bin/bash', str(self.root / 'irradium'), 'start'], env=environment)
+        self.assertEqual(failed.returncode, 7)
+        self.assertFalse(browser_log.exists())
+
+
     def test_keep_data_preserves_cases_settings_animation_and_unknown_user_files(self):
         (self.root / 'visualizaciones').mkdir()
         (self.root / 'visualizaciones/animation.blend').write_bytes(b'blend')

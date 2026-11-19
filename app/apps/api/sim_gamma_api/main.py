@@ -8,7 +8,7 @@ from typing import Dict, List, Literal, Optional, Tuple
 from uuid import uuid4
 from threading import Lock
 
-from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from starlette.concurrency import run_in_threadpool
@@ -36,6 +36,7 @@ from .settings import settings
 from .route_models import AirCalibrationComparisonRequest, AirReferenceRequest, AirRouteCalibrationRequest, RouteConfiguration, RouteDoseQuery, RouteProfileMutation, RouteResumeRequest, RouteStudyRequest
 from sim_gamma.domain.route_dose import WORKFLOW as ROUTE_WORKFLOW, SOURCE_DIAMETER_MM, integrate_dose, source_endpoints
 from .services import ScopedService, stop_all_jobs
+from .desktop_session import DesktopWindows
 from sim_gamma.domain.irradiators import catalog, current_irradiator, definition, UnsupportedIrradiator
 
 
@@ -44,6 +45,7 @@ app = FastAPI(
     version=VERSION,
     description=SUBTITLE,
 )
+desktop_windows = DesktopWindows(os.environ.get("IRRADIUM_DESKTOP_SESSION") == "1")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -109,9 +111,10 @@ def _require_phits_if_selected(parameters: Dict):
 
 
 @app.on_event("shutdown")
-def stop_local_deterministic_jobs():
-    """No deja optimizaciones locales huérfanas al cerrar la aplicación."""
-    stop_all_jobs()
+async def stop_local_deterministic_jobs():
+    """Release interactive services while detached route studies keep running."""
+    desktop_windows.cancel_pending()
+    stop_all_jobs(preserve_route_studies=True)
 
 
 class StepMaterialMutation(BaseModel):
@@ -282,7 +285,26 @@ def health():
         "environment": NAME,
         "irradiator_type": current_irradiator.get(),
         "monte_carlo_execution_enabled": settings.monte_carlo_execution_enabled,
+        "desktop_session": desktop_windows.enabled,
     }
+
+
+@app.websocket("/api/desktop/session")
+async def desktop_session(websocket: WebSocket):
+    port = os.environ.get("SIM_GAMMA_WEB_PORT", "3001")
+    origins = {f"http://127.0.0.1:{port}", f"http://localhost:{port}"}
+    if not desktop_windows.enabled or websocket.headers.get("origin") not in origins:
+        await websocket.close(code=1008)
+        return
+    await websocket.accept()
+    desktop_windows.connected()
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        pass
+    finally:
+        desktop_windows.disconnected()
 
 
 def _default_source_radionuclide():

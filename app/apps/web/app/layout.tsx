@@ -4,6 +4,7 @@ import './desktop.css';
 import './workbench.css';
 import { APPLICATION_FULL_TITLE, APPLICATION_SUBTITLE } from '../lib/branding';
 import InterfaceUpdateNotice from '../components/layout/InterfaceUpdateNotice';
+import DesktopSession from '../components/layout/DesktopSession';
 
 export const metadata: Metadata = {
   title: APPLICATION_FULL_TITLE,
@@ -25,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body><InterfaceUpdateNotice/>{children}</body>
+      <body><DesktopSession/><InterfaceUpdateNotice/>{children}</body>
     </html>
   );
 }

@@ -247,6 +247,10 @@ def main():
     if command == "start": start()
     elif command == "organize": ensure_workspace(); print("Estructura y lanzadores de IRRADIUM preparados.")
     elif command == "stop": stop()
+    elif command == "close-ui":
+        info = process_info("api")
+        if info and arguments == [str(info["pid"])]:
+            stop()
     elif command == "restart": stop(); start()
     elif command == "status":
         for service in ("api", "web"):

@@ -66,7 +66,9 @@ class ScopedService:
         return getattr(getattr(services_for_current_category(), self.name), attribute)
 
 
-def stop_all_jobs() -> None:
+def stop_all_jobs(*, preserve_route_studies=False) -> None:
     for services in list(_instances.values()):
+        if preserve_route_studies and definition(services.case_store.irradiator_type).get("transport") == WORKFLOW:
+            continue
         services.deterministic_jobs.cancel_all()
         services.monte_carlo_jobs.cancel_all()

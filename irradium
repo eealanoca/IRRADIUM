@@ -14,39 +14,49 @@ fi
 if [[ "${1:-}" == "menu-install" ]]; then
   exec "$ROOT/runtime/main/bin/python" -I -B "$ROOT/scripts/menu_entry.py" --data-home "$HOST_DATA_HOME"
 fi
-export IRRADIUM_ROOT="$ROOT"
-export IRRADIUM_WORKSPACE_ROOT="$ROOT/workspace"
-export PYTHONPATH="$ROOT/app/src:$ROOT/app"
-export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
-export CONDA_REGISTER_ENVS=false
-export MAMBA_ROOT_PREFIX="$ROOT/runtime/mamba"
-export CONDA_ENVS_PATH="$ROOT/runtime"
-export CONDA_PKGS_DIRS="$ROOT/runtime/mamba/pkgs"
-export XDG_CACHE_HOME="$ROOT/.local/cache" XDG_CONFIG_HOME="$ROOT/.local/config"
-export XDG_DATA_HOME="$ROOT/.local/share" XDG_STATE_HOME="$ROOT/.local/state"
-export TMPDIR="$ROOT/.local/tmp"
-export PATH="/usr/local/bin:/usr/bin:/bin"
-unset PYTHONHOME VIRTUAL_ENV CONDA_PREFIX CONDA_DEFAULT_ENV CONDA_PROMPT_MODIFIER CONDA_SHLVL CONDA_EXE CONDA_PYTHON_EXE
-unset DBUS_SESSION_BUS_ADDRESS LD_PRELOAD
-mkdir -p "$TMPDIR" "$XDG_CACHE_HOME" "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$ROOT/.local/empty"
-GUARD="$ROOT/runtime/guard/bwrap"
-[[ -x "$GUARD" ]] || { printf 'Falta la protección incluida en runtime/guard.\n' >&2; exit 1; }
-MASK=()
-PROJECTS_DIR="$(dirname "$ROOT")"
-for ORIGINAL in "$HOME/anaconda3" "$HOME/miniconda3" "$PROJECTS_DIR/simulator_mobile_platform" "$PROJECTS_DIR/simulator_irr_gamma_iv"; do
-  [[ "$ORIGINAL" != "$ROOT" ]] || continue
-  [[ ! -d "$ORIGINAL" ]] || MASK+=(--ro-bind "$ROOT/.local/empty" "$ORIGINAL")
-done
-export LD_LIBRARY_PATH="$ROOT/runtime/guard/lib"
-"$GUARD" --ro-bind / / --bind "$ROOT" "$ROOT" "${MASK[@]}" \
-  --dev /dev --proc /proc --tmpfs /tmp --chdir "$ROOT/app" \
-  -- "$ROOT/runtime/main/bin/python" "$ROOT/scripts/control.py" "$@"
+(
+  case "${1:-start}" in
+    start|restart)
+      if [[ "${IRRADIUM_OPEN_BROWSER:-1}" == "1" && -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ]]; then
+        export IRRADIUM_DESKTOP_SESSION=1
+      fi
+      ;;
+  esac
+  export IRRADIUM_ROOT="$ROOT"
+  export IRRADIUM_WORKSPACE_ROOT="$ROOT/workspace"
+  export PYTHONPATH="$ROOT/app/src:$ROOT/app"
+  export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+  export CONDA_REGISTER_ENVS=false
+  export MAMBA_ROOT_PREFIX="$ROOT/runtime/mamba"
+  export CONDA_ENVS_PATH="$ROOT/runtime"
+  export CONDA_PKGS_DIRS="$ROOT/runtime/mamba/pkgs"
+  export XDG_CACHE_HOME="$ROOT/.local/cache" XDG_CONFIG_HOME="$ROOT/.local/config"
+  export XDG_DATA_HOME="$ROOT/.local/share" XDG_STATE_HOME="$ROOT/.local/state"
+  export TMPDIR="$ROOT/.local/tmp"
+  export PATH="/usr/local/bin:/usr/bin:/bin"
+  unset PYTHONHOME VIRTUAL_ENV CONDA_PREFIX CONDA_DEFAULT_ENV CONDA_PROMPT_MODIFIER CONDA_SHLVL CONDA_EXE CONDA_PYTHON_EXE
+  unset DBUS_SESSION_BUS_ADDRESS LD_PRELOAD
+  mkdir -p "$TMPDIR" "$XDG_CACHE_HOME" "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$ROOT/.local/empty"
+  GUARD="$ROOT/runtime/guard/bwrap"
+  [[ -x "$GUARD" ]] || { printf 'Falta la protección incluida en runtime/guard.\n' >&2; exit 1; }
+  MASK=()
+  PROJECTS_DIR="$(dirname "$ROOT")"
+  for ORIGINAL in "$HOME/anaconda3" "$HOME/miniconda3" "$PROJECTS_DIR/simulator_mobile_platform" "$PROJECTS_DIR/simulator_irr_gamma_iv"; do
+    [[ "$ORIGINAL" != "$ROOT" ]] || continue
+    [[ ! -d "$ORIGINAL" ]] || MASK+=(--ro-bind "$ROOT/.local/empty" "$ORIGINAL")
+  done
+  export LD_LIBRARY_PATH="$ROOT/runtime/guard/lib"
+  "$GUARD" --ro-bind / / --bind "$ROOT" "$ROOT" "${MASK[@]}" \
+    --dev /dev --proc /proc --tmpfs /tmp --chdir "$ROOT/app" \
+    -- "$ROOT/runtime/main/bin/python" "$ROOT/scripts/control.py" "$@"
 
-case "${1:-start}" in
-  install|start|restart)
-    "$ROOT/runtime/main/bin/python" -I -B "$ROOT/scripts/menu_entry.py" --data-home "$HOST_DATA_HOME" || true
-    ;;
-esac
+  case "${1:-start}" in
+    install|start|restart)
+      "$ROOT/runtime/main/bin/python" -I -B "$ROOT/scripts/menu_entry.py" --data-home "$HOST_DATA_HOME" || true
+      ;;
+  esac
+
+)
 
 case "${1:-start}" in
   start|restart)
